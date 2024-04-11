@@ -1,12 +1,14 @@
 <template>
   <div class="app">
-    <Aside ></Aside>
+    <Aside v-if="route.name!=='register' && route.name!=='login'"></Aside>
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-import Aside from './components/Aside.vue'
-
+import Aside from '@/components/Aside.vue'
+import {useRoute} from "vue-router"
+const route = useRoute()
 </script>
 
 <style scoped>

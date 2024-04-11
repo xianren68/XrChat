@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "xianren<xianren711@gmail.com>",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -10,14 +11,19 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@tauri-apps/api": "^1",
+    "element-plus": "^2.6.3",
+    "google-protobuf": "^3.21.2",
+    "sass": "^1.74.1",
+    "ts-proto": "^1.171.0",
     "vue": "^3.3.4",
-    "@tauri-apps/api": "^1"
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.0.2",
     "vite": "^5.0.0",
-    "vue-tsc": "^1.8.5",
-    "@tauri-apps/cli": "^1"
+    "vue-tsc": "^1.8.5"
   }
 }

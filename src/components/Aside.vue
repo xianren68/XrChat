@@ -3,7 +3,7 @@
         <div class="avatar" >
             <img src="" alt="">
         </div>
-        <a class="item">
+        <a class="item" :class="{'select':route.path==='/'}" @click="pushSession">
             <svg class="icon">
                 <use xlink:href="#icon-message"></use>
             </svg>
@@ -20,7 +20,7 @@
                 <use :xlink:href="theme?'#icon-baitian_':'#icon-yueliang'"></use>
             </svg>
         </a>
-        <a class="setting">
+        <a class="setting" :class="{'select':route.path==='/setting'}" @click="pushSetting">
             <svg class="icon">
                 <use xlink:href="#icon-setting"></use>
             </svg>
@@ -30,6 +30,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute ,useRouter} from 'vue-router'
+const route = useRoute()
+const router = useRouter()
+const pushSession = () => {
+    router.push('/')
+}
+const pushSetting = () => {
+    router.push('/setting')
+}
 const theme = ref(false)
 const app = document.querySelector('#app') as HTMLElement
 const switchTheme = () => {
@@ -103,7 +112,9 @@ const switchTheme = () => {
     .select .icon {
         transform: scale(1.2);
         transition: .5s;
-        fill: var(--icon-active-color);
+        fill:#0c68d2;
+        filter:
+            drop-shadow(0 0 1px #fa5151);
     }
     .switch {
         position: absolute;
