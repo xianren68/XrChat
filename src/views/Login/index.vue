@@ -20,11 +20,13 @@
         <svg class="icon">
           <use xlink:href="#icon-youxiang"></use>
         </svg>
-        <input type="email" placeholder="输入邮箱" v-model="email">
+        <input type="email" placeholder="输入邮箱" v-model="email" v-if="sendOrSetTime==='邮箱验证'">
+        <input type="text" placeholder="输入验证码" v-model="code" v-else>
         <span class="verify" v-show="verEmail">邮箱是必须的</span>
+        <span class="verify" v-show="verCode">输入验证码</span>
         <span class="vef" @click="sendEmail">{{sendOrSetTime}}</span>
       </div>
-      <button @click="Login">REGISTER</button>
+      <button @click="register">REGISTER</button>
       <div class="login">
         <span>已有账号？ </span>
         <a class="link" @click="router.push({ name: 'login' })">去登录</a>
@@ -36,7 +38,7 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router"
 import {ref} from 'vue'
-import {VerifyEmail} from "@/api"
+import {VerifyEmail,Register} from "@/api"
 import { user} from "@/pb/user.ts"
 import {ElMessage} from "element-plus"
 import {verifyEmailAddress} from "@/utils"
@@ -46,6 +48,10 @@ const name = ref('')
 const pwd = ref('')
 const email = ref('')
 const verEmail = ref(false)
+const verPwd = ref(false)
+const verName = ref(false)
+const code = ref('')
+const verCode = ref(false)
 const sendOrSetTime = ref<string|number>("邮箱验证")
 
 // control whether email verification can be sent.
@@ -60,6 +66,7 @@ const sendEmail = async () => {
     setTimeout(()=>{
       verEmail.value = false
     },1000)
+    return
   }
   if(!verifyEmailAddress(email.value)){
       ElMessage.warning("邮箱格式有误")
@@ -76,11 +83,65 @@ const sendEmail = async () => {
   timer = setInterval(() => {
     sendOrSetTime.value = sendOrSetTime.value as number - 1
     if (sendOrSetTime.value === 0) {
+        clearInterval(timer)
         timer = null
         sendOrSetTime.value = "邮箱验证"
     }
   },1000)
 }
+// register
+const register = async()=>{
+  if(!verify()){
+    return
+  }
+  console.log(code.value)
+  const arrayBuffer = await Register(new user.RegisterRequest({
+    username: name.value,
+    password: pwd.value,
+    code: code.value,
+    email: email.value
+  }))
+  const resp = user.Response.deserialize(arrayBuffer)
+  if(resp.code !== 200){
+    ElMessage.error(resp.message)
+    return
+  }
+  ElMessage.success(resp.message)
+}
+// verify input.
+const verify = ()=>{
+  let flag = false
+  if(!name){
+    verName.value = true
+    setTimeout(()=>{
+      verName.value = false
+    },1000)
+  }
+  if(!pwd.value){
+    verPwd.value = true
+    setTimeout(()=>{
+      verPwd.value = false
+    },1000)
+  }
+  if(!email.value){
+    verEmail.value = true
+    setTimeout(()=>{
+      verEmail.value = false
+    },1000)
+  }
+  if(sendOrSetTime.value === "邮箱验证"){
+    ElMessage.warning("请先完成邮箱验证")
+  } else if(!code.value && sendOrSetTime.value !== "邮箱验证"){
+    verCode.value = true
+    setTimeout(()=>{
+      verCode.value = false
+    },1000)
+  }
+  flag = true
+  return flag
+}
+
+
 
 </script>
 

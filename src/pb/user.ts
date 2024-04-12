@@ -101,7 +101,6 @@ export namespace user {
             username?: string;
             password?: string;
             email?: string;
-            phone?: string;
             code?: string;
         }) {
             super();
@@ -115,9 +114,6 @@ export namespace user {
                 }
                 if ("email" in data && data.email != undefined) {
                     this.email = data.email;
-                }
-                if ("phone" in data && data.phone != undefined) {
-                    this.phone = data.phone;
                 }
                 if ("code" in data && data.code != undefined) {
                     this.code = data.code;
@@ -142,12 +138,6 @@ export namespace user {
         set email(value: string) {
             pb_1.Message.setField(this, 3, value);
         }
-        get phone() {
-            return pb_1.Message.getFieldWithDefault(this, 4, "") as string;
-        }
-        set phone(value: string) {
-            pb_1.Message.setField(this, 4, value);
-        }
         get code() {
             return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
         }
@@ -158,7 +148,6 @@ export namespace user {
             username?: string;
             password?: string;
             email?: string;
-            phone?: string;
             code?: string;
         }): RegisterRequest {
             const message = new RegisterRequest({});
@@ -171,9 +160,6 @@ export namespace user {
             if (data.email != null) {
                 message.email = data.email;
             }
-            if (data.phone != null) {
-                message.phone = data.phone;
-            }
             if (data.code != null) {
                 message.code = data.code;
             }
@@ -184,7 +170,6 @@ export namespace user {
                 username?: string;
                 password?: string;
                 email?: string;
-                phone?: string;
                 code?: string;
             } = {};
             if (this.username != null) {
@@ -195,9 +180,6 @@ export namespace user {
             }
             if (this.email != null) {
                 data.email = this.email;
-            }
-            if (this.phone != null) {
-                data.phone = this.phone;
             }
             if (this.code != null) {
                 data.code = this.code;
@@ -214,8 +196,6 @@ export namespace user {
                 writer.writeString(2, this.password);
             if (this.email.length)
                 writer.writeString(3, this.email);
-            if (this.phone.length)
-                writer.writeString(4, this.phone);
             if (this.code.length)
                 writer.writeString(5, this.code);
             if (!w)
@@ -235,9 +215,6 @@ export namespace user {
                         break;
                     case 3:
                         message.email = reader.readString();
-                        break;
-                    case 4:
-                        message.phone = reader.readString();
                         break;
                     case 5:
                         message.code = reader.readString();
