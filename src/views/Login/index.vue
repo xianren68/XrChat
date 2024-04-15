@@ -48,12 +48,12 @@ const login = async () => {
     email: name.value,
     password: pwd.value
   }))
-  const resp = user.Response.deserialize(arrayBuffer as Uint8Array)
+  const resp = user.LoginResponse.deserialize(arrayBuffer as Uint8Array)
   if (resp.code !== 200) {
     ElMessage.error(resp.message)
     return
   }
-  ElMessage.success(resp.message)
+  ElMessage.success("登录成功")
 }
 // verify input.
 const verify = () => {

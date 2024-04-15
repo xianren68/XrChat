@@ -591,4 +591,186 @@ export namespace user {
             return Response.deserialize(bytes);
         }
     }
+    export class LoginResponse extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            code?: number;
+            id?: number;
+            username?: string;
+            line?: string;
+            avatar?: string;
+            message?: string;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("code" in data && data.code != undefined) {
+                    this.code = data.code;
+                }
+                if ("id" in data && data.id != undefined) {
+                    this.id = data.id;
+                }
+                if ("username" in data && data.username != undefined) {
+                    this.username = data.username;
+                }
+                if ("line" in data && data.line != undefined) {
+                    this.line = data.line;
+                }
+                if ("avatar" in data && data.avatar != undefined) {
+                    this.avatar = data.avatar;
+                }
+                if ("message" in data && data.message != undefined) {
+                    this.message = data.message;
+                }
+            }
+        }
+        get code() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set code(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        get id() {
+            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
+        }
+        set id(value: number) {
+            pb_1.Message.setField(this, 2, value);
+        }
+        get username() {
+            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+        }
+        set username(value: string) {
+            pb_1.Message.setField(this, 3, value);
+        }
+        get line() {
+            return pb_1.Message.getFieldWithDefault(this, 4, "") as string;
+        }
+        set line(value: string) {
+            pb_1.Message.setField(this, 4, value);
+        }
+        get avatar() {
+            return pb_1.Message.getFieldWithDefault(this, 5, "") as string;
+        }
+        set avatar(value: string) {
+            pb_1.Message.setField(this, 5, value);
+        }
+        get message() {
+            return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
+        }
+        set message(value: string) {
+            pb_1.Message.setField(this, 6, value);
+        }
+        static fromObject(data: {
+            code?: number;
+            id?: number;
+            username?: string;
+            line?: string;
+            avatar?: string;
+            message?: string;
+        }): LoginResponse {
+            const message = new LoginResponse({});
+            if (data.code != null) {
+                message.code = data.code;
+            }
+            if (data.id != null) {
+                message.id = data.id;
+            }
+            if (data.username != null) {
+                message.username = data.username;
+            }
+            if (data.line != null) {
+                message.line = data.line;
+            }
+            if (data.avatar != null) {
+                message.avatar = data.avatar;
+            }
+            if (data.message != null) {
+                message.message = data.message;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                code?: number;
+                id?: number;
+                username?: string;
+                line?: string;
+                avatar?: string;
+                message?: string;
+            } = {};
+            if (this.code != null) {
+                data.code = this.code;
+            }
+            if (this.id != null) {
+                data.id = this.id;
+            }
+            if (this.username != null) {
+                data.username = this.username;
+            }
+            if (this.line != null) {
+                data.line = this.line;
+            }
+            if (this.avatar != null) {
+                data.avatar = this.avatar;
+            }
+            if (this.message != null) {
+                data.message = this.message;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.code != 0)
+                writer.writeInt32(1, this.code);
+            if (this.id != 0)
+                writer.writeUint32(2, this.id);
+            if (this.username.length)
+                writer.writeString(3, this.username);
+            if (this.line.length)
+                writer.writeString(4, this.line);
+            if (this.avatar.length)
+                writer.writeString(5, this.avatar);
+            if (this.message.length)
+                writer.writeString(6, this.message);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): LoginResponse {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new LoginResponse();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.code = reader.readInt32();
+                        break;
+                    case 2:
+                        message.id = reader.readUint32();
+                        break;
+                    case 3:
+                        message.username = reader.readString();
+                        break;
+                    case 4:
+                        message.line = reader.readString();
+                        break;
+                    case 5:
+                        message.avatar = reader.readString();
+                        break;
+                    case 6:
+                        message.message = reader.readString();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): LoginResponse {
+            return LoginResponse.deserialize(bytes);
+        }
+    }
 }
