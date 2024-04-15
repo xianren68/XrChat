@@ -2,9 +2,11 @@
 // version
 syntax = "proto3";
 
+// package
+option go_package = "./pb";
 package user;
 message LoginRequest {
-  int64 userid = 1;
+  string email = 1;
   string password = 2;
 }
 
@@ -19,6 +21,7 @@ message ResetPassword {
   string email = 2;
   string password = 3;
 }
+
 
 // verify email
 message EmailVerifyRequest {

@@ -1,13 +1,13 @@
 <template>
-  <div class="register">
-    <p class="title">REGISTER</p>
+  <div class="login">
+    <p class="title">LOGIN</p>
     <div class="info">
       <div class="name item">
         <svg class="icon">
           <use xlink:href="#icon-user"></use>
         </svg>
-        <input type="text" placeholder="用户名" v-model="name">
-        <span class="verify" v-show="verName">用户名不能为空</span>
+        <input type="text" placeholder="邮箱" v-model="name">
+        <span class="verify" v-show="verName">账号不能为空</span>
       </div>
       <div class="pwd item">
         <svg class="icon">
@@ -16,126 +16,59 @@
         <input type="password" placeholder="密码" v-model="pwd">
         <span class="verify" v-show="verPwd">密码不能为空</span>
       </div>
-      <div class="email item">
-        <svg class="icon">
-          <use xlink:href="#icon-youxiang"></use>
-        </svg>
-        <input type="email" placeholder="输入邮箱" v-model="email" v-if="sendOrSetTime==='邮箱验证'">
-        <input type="text" placeholder="输入验证码" v-model="code" v-else>
-        <span class="verify" v-show="verEmail">邮箱是必须的</span>
-        <span class="verify" v-show="verCode">输入验证码</span>
-        <span class="vef" @click="sendEmail">{{sendOrSetTime}}</span>
-      </div>
-      <button @click="register">REGISTER</button>
-      <div class="login">
-        <span>已有账号？ </span>
-        <a class="link" @click="router.push({ name: 'login' })">去登录</a>
+      <button @click="login">LOGIN</button>
+      <div class="register">
+        <span>没有账号？ </span>
+        <a class="link" @click="router.push({ name: 'login' })">去注册</a>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useRouter} from "vue-router"
-import {ref} from 'vue'
-import {VerifyEmail,Register} from "@/api"
-import { user} from "@/pb/user.ts"
-import {ElMessage} from "element-plus"
-import {verifyEmailAddress} from "@/utils"
+import { useRouter } from "vue-router"
+import { ref } from 'vue'
+import { Login } from "@/api"
+import { user } from "@/pb/user.ts"
+import { ElMessage } from "element-plus"
 
 const router = useRouter()
 const name = ref('')
 const pwd = ref('')
-const email = ref('')
-const verEmail = ref(false)
 const verPwd = ref(false)
 const verName = ref(false)
-const code = ref('')
-const verCode = ref(false)
-const sendOrSetTime = ref<string|number>("邮箱验证")
 
-// control whether email verification can be sent.
-let timer:any = null
-// send Email address for verify.
-const sendEmail = async () => {
-  if(timer){
+
+// login
+const login = async () => {
+  if (!verify()) {
     return
   }
-  if (!email.value) {
-    verEmail.value = true
-    setTimeout(()=>{
-      verEmail.value = false
-    },1000)
-    return
-  }
-  if(!verifyEmailAddress(email.value)){
-      ElMessage.warning("邮箱格式有误")
-  }
-  const msg = new user.EmailVerifyRequest({email:email.value})
-  const res = await VerifyEmail(msg)
-  const resp = user.Response.deserialize(res)
-  if(resp.code !== 200){
-    ElMessage.error(resp.message)
-    return
-  }
-  ElMessage.success(resp.message)
-  sendOrSetTime.value = 300
-  timer = setInterval(() => {
-    sendOrSetTime.value = sendOrSetTime.value as number - 1
-    if (sendOrSetTime.value === 0) {
-        clearInterval(timer)
-        timer = null
-        sendOrSetTime.value = "邮箱验证"
-    }
-  },1000)
-}
-// register
-const register = async()=>{
-  if(!verify()){
-    return
-  }
-  console.log(code.value)
-  const arrayBuffer = await Register(new user.RegisterRequest({
-    username: name.value,
-    password: pwd.value,
-    code: code.value,
-    email: email.value
+  const arrayBuffer = await Login(new user.LoginRequest({
+    email: name.value,
+    password: pwd.value
   }))
-  const resp = user.Response.deserialize(arrayBuffer)
-  if(resp.code !== 200){
+  const resp = user.Response.deserialize(arrayBuffer as Uint8Array)
+  if (resp.code !== 200) {
     ElMessage.error(resp.message)
     return
   }
   ElMessage.success(resp.message)
 }
 // verify input.
-const verify = ()=>{
+const verify = () => {
   let flag = false
-  if(!name){
+  if (!name) {
     verName.value = true
-    setTimeout(()=>{
+    setTimeout(() => {
       verName.value = false
-    },1000)
+    }, 1000)
   }
-  if(!pwd.value){
+  if (!pwd.value) {
     verPwd.value = true
-    setTimeout(()=>{
+    setTimeout(() => {
       verPwd.value = false
-    },1000)
-  }
-  if(!email.value){
-    verEmail.value = true
-    setTimeout(()=>{
-      verEmail.value = false
-    },1000)
-  }
-  if(sendOrSetTime.value === "邮箱验证"){
-    ElMessage.warning("请先完成邮箱验证")
-  } else if(!code.value && sendOrSetTime.value !== "邮箱验证"){
-    verCode.value = true
-    setTimeout(()=>{
-      verCode.value = false
-    },1000)
+    }, 1000)
   }
   flag = true
   return flag
@@ -146,10 +79,10 @@ const verify = ()=>{
 </script>
 
 <style scoped>
-.register {
+.login {
   margin: auto;
-  height: 380px;
-  width: 350px;
+  height: 330px;
+  width: 340px;
   background-color: #ffffff11;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   border-radius: 10px;
@@ -187,17 +120,19 @@ const verify = ()=>{
     .pwd {
       margin-top: 35px;
     }
+
     .email {
       margin-top: 35px;
-      position:relative;
-      .vef{
+      position: relative;
+
+      .vef {
         position: absolute;
         right: 0;
         height: 30px;
         width: 70px;
-        font-size:12px;
+        font-size: 12px;
         line-height: 30px;
-        background-color:#ffffcf08;
+        background-color: #ffffcf08;
         text-align: center;
       }
     }
@@ -225,7 +160,7 @@ const verify = ()=>{
       border: none;
     }
 
-    .login {
+    .register {
       margin-top: 23px;
       font-size: 12px;
       color: #ccc;
@@ -245,4 +180,5 @@ const verify = ()=>{
       left: 10px;
     }
   }
-}</style>
+}
+</style>
