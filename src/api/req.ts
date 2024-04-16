@@ -18,7 +18,7 @@ export default class Request {
   async Post<T extends Message>(url: string, data: T) {
     const config: RequestInit = {
       method: 'POST',
-      headers: {},
+      headers: new Headers(),
       body: data.serializeBinary(),
     }
     // exec request interceptors.

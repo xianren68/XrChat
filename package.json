@@ -15,6 +15,7 @@
     "@types/google-protobuf": "^3.15.12",
     "element-plus": "^2.6.3",
     "google-protobuf": "^3.21.2",
+    "pinia": "^2.1.7",
     "sass": "^1.74.1",
     "ts-proto": "^1.171.0",
     "vue": "^3.3.4",

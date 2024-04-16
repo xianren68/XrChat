@@ -599,7 +599,9 @@ export namespace user {
             username?: string;
             line?: string;
             avatar?: string;
+            email?: string;
             message?: string;
+            token?: string;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -619,8 +621,14 @@ export namespace user {
                 if ("avatar" in data && data.avatar != undefined) {
                     this.avatar = data.avatar;
                 }
+                if ("email" in data && data.email != undefined) {
+                    this.email = data.email;
+                }
                 if ("message" in data && data.message != undefined) {
                     this.message = data.message;
+                }
+                if ("token" in data && data.token != undefined) {
+                    this.token = data.token;
                 }
             }
         }
@@ -654,11 +662,23 @@ export namespace user {
         set avatar(value: string) {
             pb_1.Message.setField(this, 5, value);
         }
-        get message() {
+        get email() {
             return pb_1.Message.getFieldWithDefault(this, 6, "") as string;
         }
-        set message(value: string) {
+        set email(value: string) {
             pb_1.Message.setField(this, 6, value);
+        }
+        get message() {
+            return pb_1.Message.getFieldWithDefault(this, 7, "") as string;
+        }
+        set message(value: string) {
+            pb_1.Message.setField(this, 7, value);
+        }
+        get token() {
+            return pb_1.Message.getFieldWithDefault(this, 8, "") as string;
+        }
+        set token(value: string) {
+            pb_1.Message.setField(this, 8, value);
         }
         static fromObject(data: {
             code?: number;
@@ -666,7 +686,9 @@ export namespace user {
             username?: string;
             line?: string;
             avatar?: string;
+            email?: string;
             message?: string;
+            token?: string;
         }): LoginResponse {
             const message = new LoginResponse({});
             if (data.code != null) {
@@ -684,8 +706,14 @@ export namespace user {
             if (data.avatar != null) {
                 message.avatar = data.avatar;
             }
+            if (data.email != null) {
+                message.email = data.email;
+            }
             if (data.message != null) {
                 message.message = data.message;
+            }
+            if (data.token != null) {
+                message.token = data.token;
             }
             return message;
         }
@@ -696,7 +724,9 @@ export namespace user {
                 username?: string;
                 line?: string;
                 avatar?: string;
+                email?: string;
                 message?: string;
+                token?: string;
             } = {};
             if (this.code != null) {
                 data.code = this.code;
@@ -713,8 +743,14 @@ export namespace user {
             if (this.avatar != null) {
                 data.avatar = this.avatar;
             }
+            if (this.email != null) {
+                data.email = this.email;
+            }
             if (this.message != null) {
                 data.message = this.message;
+            }
+            if (this.token != null) {
+                data.token = this.token;
             }
             return data;
         }
@@ -732,8 +768,12 @@ export namespace user {
                 writer.writeString(4, this.line);
             if (this.avatar.length)
                 writer.writeString(5, this.avatar);
+            if (this.email.length)
+                writer.writeString(6, this.email);
             if (this.message.length)
-                writer.writeString(6, this.message);
+                writer.writeString(7, this.message);
+            if (this.token.length)
+                writer.writeString(8, this.token);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -759,7 +799,13 @@ export namespace user {
                         message.avatar = reader.readString();
                         break;
                     case 6:
+                        message.email = reader.readString();
+                        break;
+                    case 7:
                         message.message = reader.readString();
+                        break;
+                    case 8:
+                        message.token = reader.readString();
                         break;
                     default: reader.skipField();
                 }

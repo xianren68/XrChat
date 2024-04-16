@@ -31,8 +31,10 @@ import { ref } from 'vue'
 import { Login } from "@/api"
 import { user } from "@/pb/user.ts"
 import { ElMessage } from "element-plus"
+import { userStore } from "@/store"
 
 const router = useRouter()
+const useUserStore = userStore()
 const name = ref('')
 const pwd = ref('')
 const verPwd = ref(false)
@@ -53,6 +55,14 @@ const login = async () => {
     ElMessage.error(resp.message)
     return
   }
+  useUserStore.userInfo = {
+    id:resp.id,
+    username:resp.username,
+    line:resp.line,
+    email:resp.email,
+    avatar:resp.avatar
+  }
+  useUserStore.token = resp.token
   ElMessage.success("登录成功")
 }
 // verify input.
