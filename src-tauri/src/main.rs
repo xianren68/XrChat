@@ -5,10 +5,10 @@
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
-
+use xrchat::interaction;
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet,interaction::get_session_list])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -3,7 +3,7 @@
         <div class="avatar">
             <img src="" alt="">
         </div>
-        <a class="item" :class="{ 'select': route.path === '/' }" @click="pushSession">
+        <a class="item" :class="{ 'select': route.path === '/home' }" @click="pushSession">
             <svg class="icon">
                 <use xlink:href="#icon-message"></use>
             </svg>
@@ -34,7 +34,7 @@ import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 const pushSession = () => {
-    router.push('/')
+    router.push('/home')
 }
 const pushSetting = () => {
     router.push('/setting')

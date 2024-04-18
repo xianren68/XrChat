@@ -32,6 +32,7 @@ import { Login } from "@/api"
 import { user } from "@/pb/user.ts"
 import { ElMessage } from "element-plus"
 import { userStore } from "@/store"
+import { invoke } from "@tauri-apps/api"
 
 const router = useRouter()
 const useUserStore = userStore()
@@ -63,6 +64,8 @@ const login = async () => {
     avatar:resp.avatar
   }
   useUserStore.token = resp.token
+  console.log(await invoke('get_session_list',{id:resp.id}))
+  router.push({ name: 'session' })
   ElMessage.success("登录成功")
 }
 // verify input.
