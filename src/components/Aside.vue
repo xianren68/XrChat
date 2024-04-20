@@ -1,6 +1,6 @@
 <template>
     <div class="aside">
-        <div class="avatar">
+        <div class="avatar" @click="pushSelf">
             <img src="" alt="">
         </div>
         <a class="item" :class="{ 'select': route.path === '/home' }" @click="pushSession">
@@ -9,7 +9,7 @@
             </svg>
             <p class="unreadMsg"></p>
         </a>
-        <a class="item">
+        <a class="item" :class="{ 'select': route.path === '/relation' }" @click="pushRelation">
             <svg class="icon">
                 <use xlink:href="#icon-contact"></use>
             </svg>
@@ -39,6 +39,12 @@ const pushSession = () => {
 const pushSetting = () => {
     router.push('/setting')
 }
+const pushRelation = () => {
+    router.push('/relation')
+}
+const pushSelf = () => {
+    router.push('/self')
+}
 const theme = ref(false)
 const app = document.querySelector('#app') as HTMLElement
 const switchTheme = () => {
@@ -63,7 +69,7 @@ const switchTheme = () => {
     width: 60px;
     border-radius: 8px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-
+    transition: all .8s;
     .avatar {
         margin-top: 30px;
         margin-bottom: 10px;

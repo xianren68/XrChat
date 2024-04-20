@@ -1,11 +1,13 @@
 import { relation } from '@/pb/relation.ts'
 import Request from './req.ts'
 import { user } from '@/pb/user.ts'
+import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 import { userStore } from '@/store'
 const useUserStore = userStore()
+const router = useRouter()
 const BaseReq = new Request('http://localhost:8080')
 
-//
 const userReq = BaseReq.Group('/user')
 const AuthReq = BaseReq.Group('/auth')
 // request interceptors,add token.
@@ -14,6 +16,19 @@ AuthReq.setInterceptors(
   <T extends RequestInit | Response>(config: T): T => {
     const token = useUserStore.token
     ;(config.headers as Headers).set('Authorization', 'Bearer ' + token)
+    return config
+  }
+)
+
+AuthReq.setInterceptors(
+  'response',
+  <T extends RequestInit | Response>(config: T): T => {
+    const token = (config.headers as Headers).get('Authorization')
+    if(token === 'Bearer ' + 'true'){
+      return config
+    }
+    ElMessage.error('token error')
+    router.push('/login')
     return config
   }
 )

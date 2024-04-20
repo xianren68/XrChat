@@ -82,3 +82,32 @@ pub fn get_group_list(conn:&Connection)->Result<Vec<model::Group>>{
         Ok(res)
     }
 }
+
+pub fn get_friend_list(conn:&Connection)->Result<Vec<model::Friend>>{
+    let table_name = "friend";
+    let mut res: Vec<model::Friend> = Vec::new();
+    if table_exist(conn, table_name)?{
+        // get all friend.
+        let mut statement = conn.prepare(
+            "SELECT * FROM (?1)",
+            
+        )?;
+        let friend_list = statement.query_map([table_name], |row| {
+            Ok(model::Friend{
+                id:row.get(0)?,
+                avatar:row.get(1)?,
+                name:row.get(2)?,
+                remark:row.get(3)?,
+            })
+        })?;
+
+    for friend in friend_list {
+        res.push(friend.expect("failed to get friend"));
+    }
+    Ok(res)
+    }else {
+        let sql = "CREATE TABLE IF NOT EXISTS friend (id,avatar,name,remark)";
+        conn.execute(sql, [])?;
+        Ok(res)
+    }
+}

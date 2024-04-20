@@ -8,7 +8,7 @@ fn greet(name: &str) -> String {
 use xrchat::interaction;
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet,interaction::get_session_list])
+        .invoke_handler(tauri::generate_handler![greet,interaction::get_session_list,interaction::get_friend_list])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

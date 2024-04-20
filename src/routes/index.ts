@@ -12,6 +12,16 @@ const routes = [
         component: () => import('@/views/Setting/index.vue')
     },
     {
+        path:'/relation',
+        name:'relation',
+        component: () => import('@/views/Relation/index.vue')
+    },
+    {
+        path:'/self',
+        name:'self',
+        component: () => import('@/views/Self/index.vue')
+    },
+    {
         path:'/',
         name:'login',
         component: () => import('@/views/Login/index.vue')
