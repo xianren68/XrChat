@@ -1,6 +1,7 @@
 import { relation } from '@/pb/relation.ts'
 import Request from './req.ts'
 import { user } from '@/pb/user.ts'
+import {option} from '@/pb/option.ts'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { userStore } from '@/store'
@@ -29,9 +30,10 @@ AuthReq.setInterceptors(
     }
     ElMessage.error('token error')
     router.push('/login')
-    return config
+    throw new Error('token error')
   }
 )
+const optionReq = AuthReq.Group('/option')
 const relationReq = AuthReq.Group('/relation')
 
 /// user req
@@ -53,3 +55,11 @@ export const VerifyEmailCode = (data: user.EmailVerifyCode) =>
 /// relation req
 export const AddFriendReq = (data: relation.AddFriendRequest) =>
   relationReq.Post('/addFriendReq', data)
+
+
+// auth req
+export const updateName = (data: option.updateName) =>
+  optionReq.Post('/updateName', data)
+
+export const updateGender = (data: option.updateGender) =>
+  optionReq.Post('/updateGender', data)

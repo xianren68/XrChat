@@ -19,7 +19,7 @@
       <button @click="login">LOGIN</button>
       <div class="register">
         <span>没有账号？ </span>
-        <a class="link" @click="router.push({ name: 'login' })">去注册</a>
+        <a class="link" @click="router.push({ name: 'register' })">去注册</a>
       </div>
     </div>
   </div>

@@ -602,6 +602,8 @@ export namespace user {
             email?: string;
             message?: string;
             token?: string;
+            gender?: boolean;
+            phone?: string;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -629,6 +631,12 @@ export namespace user {
                 }
                 if ("token" in data && data.token != undefined) {
                     this.token = data.token;
+                }
+                if ("gender" in data && data.gender != undefined) {
+                    this.gender = data.gender;
+                }
+                if ("phone" in data && data.phone != undefined) {
+                    this.phone = data.phone;
                 }
             }
         }
@@ -680,6 +688,18 @@ export namespace user {
         set token(value: string) {
             pb_1.Message.setField(this, 8, value);
         }
+        get gender() {
+            return pb_1.Message.getFieldWithDefault(this, 9, false) as boolean;
+        }
+        set gender(value: boolean) {
+            pb_1.Message.setField(this, 9, value);
+        }
+        get phone() {
+            return pb_1.Message.getFieldWithDefault(this, 10, "") as string;
+        }
+        set phone(value: string) {
+            pb_1.Message.setField(this, 10, value);
+        }
         static fromObject(data: {
             code?: number;
             id?: number;
@@ -689,6 +709,8 @@ export namespace user {
             email?: string;
             message?: string;
             token?: string;
+            gender?: boolean;
+            phone?: string;
         }): LoginResponse {
             const message = new LoginResponse({});
             if (data.code != null) {
@@ -715,6 +737,12 @@ export namespace user {
             if (data.token != null) {
                 message.token = data.token;
             }
+            if (data.gender != null) {
+                message.gender = data.gender;
+            }
+            if (data.phone != null) {
+                message.phone = data.phone;
+            }
             return message;
         }
         toObject() {
@@ -727,6 +755,8 @@ export namespace user {
                 email?: string;
                 message?: string;
                 token?: string;
+                gender?: boolean;
+                phone?: string;
             } = {};
             if (this.code != null) {
                 data.code = this.code;
@@ -752,6 +782,12 @@ export namespace user {
             if (this.token != null) {
                 data.token = this.token;
             }
+            if (this.gender != null) {
+                data.gender = this.gender;
+            }
+            if (this.phone != null) {
+                data.phone = this.phone;
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -774,6 +810,10 @@ export namespace user {
                 writer.writeString(7, this.message);
             if (this.token.length)
                 writer.writeString(8, this.token);
+            if (this.gender != false)
+                writer.writeBool(9, this.gender);
+            if (this.phone.length)
+                writer.writeString(10, this.phone);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -806,6 +846,12 @@ export namespace user {
                         break;
                     case 8:
                         message.token = reader.readString();
+                        break;
+                    case 9:
+                        message.gender = reader.readBool();
+                        break;
+                    case 10:
+                        message.phone = reader.readString();
                         break;
                     default: reader.skipField();
                 }
