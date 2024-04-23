@@ -63,3 +63,9 @@ export const updateName = (data: option.updateName) =>
 
 export const updateGender = (data: option.updateGender) =>
   optionReq.Post('/updateGender', data)
+
+export const updateLine = (data: option.updateLine) =>
+  optionReq.Post('/updateLine', data)
+
+export const updatePhone = (data: option.updatePhone) =>
+  optionReq.Post('/updatePhone', data)
