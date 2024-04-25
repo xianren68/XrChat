@@ -61,7 +61,9 @@ const login = async () => {
     username:resp.username,
     line:resp.line,
     email:resp.email,
-    avatar:resp.avatar
+    avatar:resp.avatar,
+    phone:resp.phone,
+    gender:resp.gender
   }
   useUserStore.token = resp.token
   console.log(await invoke('get_session_list',{id:resp.id}))

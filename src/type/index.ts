@@ -1,3 +1,11 @@
-import {user} from '@/pb/user'
 
-export type UserInfo = Omit<user.LoginResponse, 'code' | 'message' | 'token'>
+
+export type UserInfo = {
+    username:string,
+    id:number,
+    line:string,
+    email:string,
+    avatar:string,
+    phone:string,
+    gender:boolean
+}
