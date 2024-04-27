@@ -14,6 +14,7 @@ fn main() {
             let window = app.get_window("main").unwrap();
             app.listen_global("login", move |event| {
                 connect::tcp_connect(window.clone());
+                window.emit("login_result", "success").unwrap();
             });
         Ok(())
         })

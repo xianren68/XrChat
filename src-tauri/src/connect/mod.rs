@@ -5,8 +5,10 @@ use std::net::TcpStream;
 use std::io::{Read,Write};
 use serde::{Serialize,Deserialize};
 use tauri::Window;
+#[cfg(test)]
+mod tests;
 /// Tcp package struct.
-#[derive(Serialize, Deserialize,Clone)]
+#[derive(Serialize, Deserialize,Clone,PartialEq,Debug)]
 struct TcpPacket {
     length:u32,
     message_id:u32,
@@ -54,19 +56,31 @@ impl TcpPacket {
         })
     }
 }
-
+#[derive(Serialize, Deserialize,Clone)]
+struct Paylod {
+    data:Vec<u8>,
+    ty:u32,
+}
 pub fn tcp_connect(window: Window) {
     let host = "127.0.0.1";
     let port = 8088;
-    let stream = TcpStream::connect((host, port)).expect("Failed to connect");
-    let stream = Arc::new(Mutex::new(stream));
-    // write
-    let write_stream = stream.clone();
+    let mut stream = TcpStream::connect((host, port)).expect("Failed to connect");
+    let mut write_stream = stream.try_clone().unwrap();
     let (tx, rx) = channel::<Vec<u8>>();
     window.listen("send", move |event| {
         let message = event.payload().unwrap();
+        let msg:Paylod = serde_json::from_str(message).expect("Failed to parse message");
+        println!("{}",msg.data.len());
+        let send_msg = TcpPacket {
+            length:msg.data.len() as u32 + 12,
+            message_id:msg.ty,
+            header_length:0,
+            body_length:msg.data.len() as u32,
+            header:Vec::new(),
+            body:msg.data,
+        };
         let mut bytes = Vec::new();
-        bytes.extend(message.as_bytes());
+        bytes.extend(send_msg.to_bytes());
         tx.send(bytes).unwrap();
     });
     thread::spawn( move || {
@@ -76,7 +90,9 @@ pub fn tcp_connect(window: Window) {
             match rx.recv() {
                 Ok(data) => {
                     bytes.extend(&data);
-                    write_stream.lock().unwrap().write(&bytes).unwrap();
+                    println!("{:?}", bytes);
+                    write_stream.write(bytes.as_slice()).expect("Failed to write");
+                    println!("send");
                 },
                 Err(_) => {
                     break;
@@ -85,16 +101,15 @@ pub fn tcp_connect(window: Window) {
         }
     });
     // read
-    let read_stream = stream.clone();
     thread::spawn( move|| {
         loop {
-            let message = read_data(read_stream.lock().unwrap().try_clone().unwrap());
+            let message = read_data(&mut stream);
             window.emit("recv", message).unwrap();
         };
     });
 }
 
-fn read_data(mut stream:TcpStream)-> TcpPacket{
+fn read_data(stream:&mut TcpStream)-> TcpPacket{
     let mut flag = 4;
     let mut length = [0,0,0,0];
     let mut bytes = Vec::new();

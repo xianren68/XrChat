@@ -3,119 +3,116 @@
  * compiler version: 5.26.0
  * source: relation.proto
  * git: https://github.com/thesayyn/protoc-gen-ts */
-import * as pb_1 from "google-protobuf";
+import * as pb_1 from 'google-protobuf'
 export namespace relation {
-    export class AddFriendRequest extends pb_1.Message {
-        #one_of_decls: number[][] = [];
-        constructor(data?: any[] | {
-            ownerId?: number;
-            targetId?: number;
-            remark?: string;
-        }) {
-            super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
-            if (!Array.isArray(data) && typeof data == "object") {
-                if ("ownerId" in data && data.ownerId != undefined) {
-                    this.ownerId = data.ownerId;
-                }
-                if ("targetId" in data && data.targetId != undefined) {
-                    this.targetId = data.targetId;
-                }
-                if ("remark" in data && data.remark != undefined) {
-                    this.remark = data.remark;
-                }
-            }
-        }
-        get ownerId() {
-            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
-        }
-        set ownerId(value: number) {
-            pb_1.Message.setField(this, 1, value);
-        }
-        get targetId() {
-            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
-        }
-        set targetId(value: number) {
-            pb_1.Message.setField(this, 2, value);
-        }
-        get remark() {
-            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
-        }
-        set remark(value: string) {
-            pb_1.Message.setField(this, 3, value);
-        }
-        static fromObject(data: {
-            ownerId?: number;
-            targetId?: number;
-            remark?: string;
-        }): AddFriendRequest {
-            const message = new AddFriendRequest({});
-            if (data.ownerId != null) {
-                message.ownerId = data.ownerId;
-            }
-            if (data.targetId != null) {
-                message.targetId = data.targetId;
-            }
-            if (data.remark != null) {
-                message.remark = data.remark;
-            }
-            return message;
-        }
-        toObject() {
-            const data: {
-                ownerId?: number;
-                targetId?: number;
-                remark?: string;
-            } = {};
-            if (this.ownerId != null) {
-                data.ownerId = this.ownerId;
-            }
-            if (this.targetId != null) {
-                data.targetId = this.targetId;
-            }
-            if (this.remark != null) {
-                data.remark = this.remark;
-            }
-            return data;
-        }
-        serialize(): Uint8Array;
-        serialize(w: pb_1.BinaryWriter): void;
-        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-            const writer = w || new pb_1.BinaryWriter();
-            if (this.ownerId != 0)
-                writer.writeUint64(1, this.ownerId);
-            if (this.targetId != 0)
-                writer.writeUint64(2, this.targetId);
-            if (this.remark.length)
-                writer.writeString(3, this.remark);
-            if (!w)
-                return writer.getResultBuffer();
-        }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AddFriendRequest {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new AddFriendRequest();
-            while (reader.nextField()) {
-                if (reader.isEndGroup())
-                    break;
-                switch (reader.getFieldNumber()) {
-                    case 1:
-                        message.ownerId = reader.readUint64();
-                        break;
-                    case 2:
-                        message.targetId = reader.readUint64();
-                        break;
-                    case 3:
-                        message.remark = reader.readString();
-                        break;
-                    default: reader.skipField();
-                }
-            }
-            return message;
-        }
-        serializeBinary(): Uint8Array {
-            return this.serialize();
-        }
-        static deserializeBinary(bytes: Uint8Array): AddFriendRequest {
-            return AddFriendRequest.deserialize(bytes);
-        }
-    }
+	export class AddFriendRequest extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						ownerId?: number
+						targetId?: number
+						remark?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+				if ('targetId' in data && data.targetId != undefined) {
+					this.targetId = data.targetId
+				}
+				if ('remark' in data && data.remark != undefined) {
+					this.remark = data.remark
+				}
+			}
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get targetId() {
+			return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+		}
+		set targetId(value: number) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get remark() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set remark(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		static fromObject(data: { ownerId?: number; targetId?: number; remark?: string }): AddFriendRequest {
+			const message = new AddFriendRequest({})
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			if (data.targetId != null) {
+				message.targetId = data.targetId
+			}
+			if (data.remark != null) {
+				message.remark = data.remark
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				ownerId?: number
+				targetId?: number
+				remark?: string
+			} = {}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			if (this.targetId != null) {
+				data.targetId = this.targetId
+			}
+			if (this.remark != null) {
+				data.remark = this.remark
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.ownerId != 0) writer.writeUint64(1, this.ownerId)
+			if (this.targetId != 0) writer.writeUint64(2, this.targetId)
+			if (this.remark.length) writer.writeString(3, this.remark)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AddFriendRequest {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new AddFriendRequest()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.ownerId = reader.readUint64()
+						break
+					case 2:
+						message.targetId = reader.readUint64()
+						break
+					case 3:
+						message.remark = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): AddFriendRequest {
+			return AddFriendRequest.deserialize(bytes)
+		}
+	}
 }
