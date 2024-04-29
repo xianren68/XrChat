@@ -62,17 +62,17 @@ const login = async () => {
 		ElMessage.error(resp.message)
 		return
 	}
-	appWindow.listen('login_result', (_e: any) => {
-		// emit send online message.
-		appWindow.emit('send', { data: [...paylod.serializeBinary()], ty: 1 })
-	})
-	// emit tcp connect.
-	emit('login', resp.id)
 	const paylod = new message.Message({
 		src: resp.id,
 		tar: resp.id,
 		msg: '',
 	})
+	appWindow.listen('login_result', (_e: any) => {
+		// emit send online message.
+		appWindow.emit('send', { message_id: 1, data: [...paylod.serializeBinary()] })
+	})
+	// emit tcp connect.
+	emit('login', resp.id)
 	useUserStore.userInfo = {
 		id: resp.id,
 		username: resp.username,

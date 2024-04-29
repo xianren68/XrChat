@@ -12,9 +12,14 @@ export type Session = {
 	id: number
 	avatar: string
 	last: string
-	last_time: string
+	last_time: number
 	un_read: number
 	name: string
 	remark: string
-	session_type: boolean
+	session_type: number
+}
+
+export type Paylod = {
+	message_id: number
+	data: Array<number>
 }
