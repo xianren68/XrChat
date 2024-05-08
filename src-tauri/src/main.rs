@@ -12,7 +12,7 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| {
             let window = app.get_window("main").unwrap();
-            app.listen_global("login", move |event| {
+            app.listen_global("login", move |_event| {
                 connect::tcp_connect(window.clone());
                 window.emit("login_result", "success").unwrap();
             });

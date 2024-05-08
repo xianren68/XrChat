@@ -1,13 +1,18 @@
+use crate::api;
 use crate::model;
+use crate::pb::relation;
 use rusqlite::{Connection, Result};
-
-// return a connection.
-pub fn connect_sql(id: usize) -> Result<Connection> {
-    let conn = Connection::open(format!("{}_data.db", id))?;
-    Ok(conn)
+pub struct MyConn {
+    pub conn: Connection,
+    pub id: usize,
 }
-fn table_exist(conn: &Connection, table_name: &str) -> Result<bool> {
-    let mut statement = conn.prepare("PRAGMA table_list")?;
+// return a connection.
+pub fn connect_sql(id: usize) -> Result<MyConn> {
+    let conn = Connection::open(format!("{}_data.db", id))?;
+    Ok(MyConn { conn, id })
+}
+fn table_exist(conn: &MyConn, table_name: &str) -> Result<bool> {
+    let mut statement = conn.conn.prepare("PRAGMA table_list")?;
     // 判断指定表是否存在
     let table_list = statement.query_map([], |row| Ok(model::TableName { name: row.get(0)? }))?;
     for table in table_list {
@@ -18,12 +23,12 @@ fn table_exist(conn: &Connection, table_name: &str) -> Result<bool> {
     Ok(false)
 }
 // get session list.
-pub fn get_session_list(conn: &Connection) -> Result<Vec<model::Session>> {
+pub fn get_session_list(conn: &MyConn) -> Result<Vec<model::Session>> {
     let table_name = "session";
     let mut res: Vec<model::Session> = Vec::new();
     if table_exist(conn, table_name)? {
         // get all session
-        let mut statement = conn.prepare("SELECT * FROM (?1)")?;
+        let mut statement = conn.conn.prepare("SELECT * FROM (?1)")?;
         let session_list = statement.query_map([table_name], |row| {
             Ok(model::Session {
                 id: row.get(0)?,
@@ -46,19 +51,19 @@ pub fn get_session_list(conn: &Connection) -> Result<Vec<model::Session>> {
     }
 }
 
-pub fn get_group_list(conn: &Connection) -> Result<Vec<model::Group>> {
+pub fn get_group_list(conn: &MyConn) -> Result<Vec<model::Group>> {
     let table_name = "group";
     let mut res: Vec<model::Group> = Vec::new();
     if table_exist(conn, table_name)? {
         // get all group.
-        let mut statement = conn.prepare("SELECT * FROM (?1)")?;
+        let mut statement = conn.conn.prepare("SELECT * FROM (?1)")?;
         let group_list = statement.query_map([table_name], |row| {
             Ok(model::Group {
                 id: row.get(0)?,
                 name: row.get(1)?,
                 avatar: row.get(2)?,
                 desc: row.get(3)?,
-                ownerid:row.get(4)?,
+                ownerid: row.get(4)?,
             })
         })?;
         for group in group_list {
@@ -66,19 +71,19 @@ pub fn get_group_list(conn: &Connection) -> Result<Vec<model::Group>> {
         }
         Ok(res)
     } else {
-        let mut statement = conn.prepare("");
+        let mut statement = conn.conn.prepare("");
         let sql = "";
-        conn.execute(sql, [""])?;
+        conn.conn.execute(sql, [""])?;
         Ok(res)
     }
 }
 
-pub fn get_friend_list(conn: &Connection) -> Result<Vec<model::Friend>> {
+pub fn get_friend_list(conn: &MyConn) -> Result<Vec<model::Friend>> {
     let table_name = "friend";
     let mut res: Vec<model::Friend> = Vec::new();
     if table_exist(conn, table_name)? {
         // get all friend.
-        let mut statement = conn.prepare("SELECT * FROM (?1)")?;
+        let mut statement = conn.conn.prepare("SELECT * FROM (?1)")?;
         let friend_list = statement.query_map([table_name], |row| {
             Ok(model::Friend {
                 id: row.get(0)?,
@@ -98,26 +103,29 @@ pub fn get_friend_list(conn: &Connection) -> Result<Vec<model::Friend>> {
         Ok(res)
     } else {
         create_friend_table(conn)?;
+        // get friend_list from mysql.
+        // let friends = api::relation::get_friend_list(conn.id)?;
+        // // return list to frontend.
+        // Ok(save_all_friend(friends, conn)?)
         Ok(res)
     }
 }
 
-
-pub fn get_friend(conn: &Connection, id: usize)-> Result<model::Friend> {
+pub fn get_friend(conn: &MyConn, id: usize) -> Result<model::Friend> {
     let table_name = "friend";
     if table_exist(conn, table_name)? {
         Ok(get_only_friend(conn, id)?)
-    }else {
+    } else {
         create_friend_table(conn)?;
         // TODO get friends from backend.
         Ok(get_only_friend(conn, id)?)
     }
 }
 // get only friend by id.
-fn get_only_friend(conn: &Connection, id: usize)-> Result<model::Friend> {
+fn get_only_friend(conn: &MyConn, id: usize) -> Result<model::Friend> {
     let table_name = "friend";
     let sql = "SELECT * FROM (?1) WHERE id = ?";
-    let friend = conn.query_row(&sql,&[&id] ,|row| {
+    let friend = conn.conn.query_row(&sql, &[&id], |row| {
         Ok(model::Friend {
             id: row.get(0)?,
             name: row.get(1)?,
@@ -128,36 +136,36 @@ fn get_only_friend(conn: &Connection, id: usize)-> Result<model::Friend> {
             gender: row.get(6)?,
             line: row.get(7)?,
         })
-        });
-        Ok(friend.expect("failed to get friend"))
+    });
+    Ok(friend.expect("failed to get friend"))
 }
 
-pub fn get_group(conn: &Connection, id: usize)-> Result<model::Group> {
+pub fn get_group(conn: &MyConn, id: usize) -> Result<model::Group> {
     let table_name = "group";
     if table_exist(conn, table_name)? {
         Ok(get_only_group(conn, id)?)
-    }else {
+    } else {
         create_group_table(conn)?;
         // TODO get groups from backend.
         Ok(get_only_group(conn, id)?)
     }
 }
-fn get_only_group(conn: &Connection, id: usize)-> Result<model::Group> {
+fn get_only_group(conn: &MyConn, id: usize) -> Result<model::Group> {
     let table_name = "group";
     let sql = "SELECT * FROM (?1) WHERE id = ?";
-    let group = conn.query_row(&sql,&[&id] ,|row| {
+    let group = conn.conn.query_row(&sql, &[table_name,&id.to_string()], |row| {
         Ok(model::Group {
             id: row.get(0)?,
             name: row.get(1)?,
             desc: row.get(2)?,
             avatar: row.get(3)?,
-            ownerid:row.get(4)?,
+            ownerid: row.get(4)?,
         })
     });
     Ok(group.expect("failed to get group"))
 }
 
-fn create_session_table(conn: &Connection) -> Result<()> {
+fn create_session_table(conn: &MyConn) -> Result<()> {
     let sql = "CREATE TABLE Session (
         id INT UNSIGNED  PRIMARY KEY,
         avatar VARCHAR(255),
@@ -168,10 +176,10 @@ fn create_session_table(conn: &Connection) -> Result<()> {
         remark TEXT,
         session_type INT
     );";
-    conn.execute(sql, [])?;
+    conn.conn.execute(sql, [])?;
     Ok(())
 }
-fn create_friend_table(conn: &Connection) -> Result<()> {
+fn create_friend_table(conn: &MyConn) -> Result<()> {
     let sql = "CREATE TABLE Friend (
         id INT UNSIGNED  PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -182,10 +190,10 @@ fn create_friend_table(conn: &Connection) -> Result<()> {
         gender BOOLEAN,
         line VARCHAR(255)
     );";
-    conn.execute(sql, [])?;
+    conn.conn.execute(sql, [])?;
     Ok(())
 }
-fn create_group_table(conn: &Connection) -> Result<()> {
+fn create_group_table(conn: &MyConn) -> Result<()> {
     let sql = "CREATE TABLE IF NOT EXISTS groups (
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
@@ -193,6 +201,37 @@ fn create_group_table(conn: &Connection) -> Result<()> {
         desc TEXT,
         ownerid INTEGER
     );";
-    conn.execute(sql, [])?;
+    conn.conn.execute(sql, [])?;
     Ok(())
 }
+
+// fn save_all_friend(friends: Vec<relation::Friend>, conn: &MyConn) -> Result<Vec<relation::Friend>> {
+//     let mut friend_list = Vec::new();
+//     for friend in friends {
+//         let model::Friend {
+//             id,
+//             name,
+//             remark,
+//             avatar,
+//             email,
+//             phone,
+//             gender,
+//             line,
+//         };
+//         friend_list.push(friend);
+//     }
+//     // 开始事务
+//     let tx = conn.conn.transaction()?;
+
+//     // 执行批量插入操作
+//     for friend in friend_list {
+//         tx.execute(
+//             "INSERT INTO friend (id, name, remark, avatar, email, phone, gender, line) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+//             (&friend.id, &friend.name, &friend.remark, &friend.avatar, &friend.email, &friend.phone, &friend.gender, &friend.line),
+//         )?;
+//     }
+
+//     // 提交事务
+//     tx.commit()?;
+//     Ok(friend_list)
+// }

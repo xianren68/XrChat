@@ -6,7 +6,7 @@ pub fn get_session_list(id: usize) -> Vec<model::Session> {
     let res = repository::get_session_list(&conn);
     match res {
         Ok(r) => {
-            conn.close().expect("err to close database");
+            conn.conn.close().expect("err to close database");
             r
         }
         Err(e) => {
@@ -21,7 +21,7 @@ pub fn get_friend_list(id: usize) -> Vec<model::Friend> {
     let res = repository::get_friend_list(&conn);
     match res {
         Ok(r) => {
-            conn.close().expect("err to close database");
+            conn.conn.close().expect("err to close database");
             r
         }
         Err(e) => {
