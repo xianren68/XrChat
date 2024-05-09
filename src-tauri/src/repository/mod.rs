@@ -12,15 +12,12 @@ pub fn connect_sql(id: usize) -> Result<MyConn> {
     Ok(MyConn { conn, id })
 }
 fn table_exist(conn: &MyConn, table_name: &str) -> Result<bool> {
-    let mut statement = conn.conn.prepare("PRAGMA table_list")?;
-    // 判断指定表是否存在
-    let table_list = statement.query_map([], |row| Ok(model::TableName { name: row.get(0)? }))?;
-    for table in table_list {
-        if table.expect("failed to get table name").name.eq(table_name) {
-            return Ok(true);
-        }
-    }
-    Ok(false)
+    let sql = format!(
+        "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='{}'",
+        table_name
+    );
+    let count: i64 = conn.conn.query_row(&sql, [], |row| row.get(0))?;
+    Ok(count > 0)
 }
 // get session list.
 pub fn get_session_list(conn: &MyConn) -> Result<Vec<model::Session>> {
@@ -28,8 +25,8 @@ pub fn get_session_list(conn: &MyConn) -> Result<Vec<model::Session>> {
     let mut res: Vec<model::Session> = Vec::new();
     if table_exist(conn, table_name)? {
         // get all session
-        let mut statement = conn.conn.prepare("SELECT * FROM (?1)")?;
-        let session_list = statement.query_map([table_name], |row| {
+        let mut statement = conn.conn.prepare(&format!("SELECT * FROM {}",table_name))?;
+        let session_list = statement.query_map([], |row| {
             Ok(model::Session {
                 id: row.get(0)?,
                 avatar: row.get(1)?,
@@ -83,8 +80,8 @@ pub fn get_friend_list(conn: &MyConn) -> Result<Vec<model::Friend>> {
     let mut res: Vec<model::Friend> = Vec::new();
     if table_exist(conn, table_name)? {
         // get all friend.
-        let mut statement = conn.conn.prepare("SELECT * FROM (?1)")?;
-        let friend_list = statement.query_map([table_name], |row| {
+        let mut statement = conn.conn.prepare(&format!("SELECT * FROM {}",table_name))?;
+        let friend_list = statement.query_map([], |row| {
             Ok(model::Friend {
                 id: row.get(0)?,
                 name: row.get(1)?,
@@ -104,10 +101,11 @@ pub fn get_friend_list(conn: &MyConn) -> Result<Vec<model::Friend>> {
     } else {
         create_friend_table(conn)?;
         // get friend_list from mysql.
-        // let friends = api::relation::get_friend_list(conn.id)?;
-        // // return list to frontend.
-        // Ok(save_all_friend(friends, conn)?)
-        Ok(res)
+        if let Ok(friends) = api::relation::get_friend_list(conn.id as u64) {
+            Ok(save_all_friend(friends, conn)?)
+        }else {
+            Ok(res)
+        }
     }
 }
 
@@ -125,7 +123,7 @@ pub fn get_friend(conn: &MyConn, id: usize) -> Result<model::Friend> {
 fn get_only_friend(conn: &MyConn, id: usize) -> Result<model::Friend> {
     let table_name = "friend";
     let sql = "SELECT * FROM (?1) WHERE id = ?";
-    let friend = conn.conn.query_row(&sql, &[&id], |row| {
+    let friend = conn.conn.query_row(&sql, &[table_name,&id.to_string()], |row| {
         Ok(model::Friend {
             id: row.get(0)?,
             name: row.get(1)?,
@@ -166,7 +164,7 @@ fn get_only_group(conn: &MyConn, id: usize) -> Result<model::Group> {
 }
 
 fn create_session_table(conn: &MyConn) -> Result<()> {
-    let sql = "CREATE TABLE Session (
+    let sql = "CREATE TABLE session (
         id INT UNSIGNED  PRIMARY KEY,
         avatar VARCHAR(255),
         last VARCHAR(255),
@@ -180,7 +178,7 @@ fn create_session_table(conn: &MyConn) -> Result<()> {
     Ok(())
 }
 fn create_friend_table(conn: &MyConn) -> Result<()> {
-    let sql = "CREATE TABLE Friend (
+    let sql = "CREATE TABLE friend (
         id INT UNSIGNED  PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         remark TEXT,
@@ -194,7 +192,7 @@ fn create_friend_table(conn: &MyConn) -> Result<()> {
     Ok(())
 }
 fn create_group_table(conn: &MyConn) -> Result<()> {
-    let sql = "CREATE TABLE IF NOT EXISTS groups (
+    let sql = "CREATE TABLE IF NOT EXISTS group (
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         avatar TEXT,
@@ -205,33 +203,34 @@ fn create_group_table(conn: &MyConn) -> Result<()> {
     Ok(())
 }
 
-// fn save_all_friend(friends: Vec<relation::Friend>, conn: &MyConn) -> Result<Vec<relation::Friend>> {
-//     let mut friend_list = Vec::new();
-//     for friend in friends {
-//         let model::Friend {
-//             id,
-//             name,
-//             remark,
-//             avatar,
-//             email,
-//             phone,
-//             gender,
-//             line,
-//         };
-//         friend_list.push(friend);
-//     }
-//     // 开始事务
-//     let tx = conn.conn.transaction()?;
+fn save_all_friend(friends: Vec<relation::Friend>, conn: &MyConn) -> Result<Vec<model::Friend>> {
+    let mut friend_list:Vec<model::Friend> = Vec::new();
+    for friend in friends {
+        let f =  model::Friend {
+            id:friend.id as usize,
+            name:friend.name,
+            remark:friend.remark,
+            avatar:friend.avatar,
+            email:friend.email,
+            phone:friend.phone,
+            gender:friend.gender,
+            line:friend.line,
+        };
+        friend_list.push(f);
+    }
+    // 开始事务
+    let mut new_conn = Connection::open(format!("{}_data.db",conn.id))?;
+    let tx = new_conn.transaction()?;
 
-//     // 执行批量插入操作
-//     for friend in friend_list {
-//         tx.execute(
-//             "INSERT INTO friend (id, name, remark, avatar, email, phone, gender, line) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
-//             (&friend.id, &friend.name, &friend.remark, &friend.avatar, &friend.email, &friend.phone, &friend.gender, &friend.line),
-//         )?;
-//     }
+    // 执行批量插入操作
+    for friend in &friend_list {
+        tx.execute(
+            "INSERT INTO friend (id, name, remark, avatar, email, phone, gender, line) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+            (&friend.id, &friend.name, &friend.remark, &friend.avatar, &friend.email, &friend.phone, &friend.gender, &friend.line),
+        )?;
+    }
 
-//     // 提交事务
-//     tx.commit()?;
-//     Ok(friend_list)
-// }
+    // 提交事务
+    tx.commit()?;
+    Ok(friend_list)
+}

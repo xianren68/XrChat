@@ -5,8 +5,69 @@ syntax = "proto3";
 option go_package = "./pb";
 package relation;
 
-message AddFriendRequest {
+message relationOp {
   uint64 ownerId = 1;
   uint64 targetId = 2;
+  string msg = 4;
+}
+message Friend {
+  uint64 id = 1;
+  string name = 2;
   string remark = 3;
+  string avatar = 4;
+  string email = 5;
+  string phone = 6;
+  bool gender = 7;
+  string line = 8;
+}
+message GetFriendsRequest {
+  uint64 ownerId = 1;
+}
+message GetFriendsRes {
+  repeated Friend friends = 1;
+  int32 code = 2;
+  string msg = 3;
+}
+message CreateGroupRequest {
+  uint64 ownerId = 1;
+  string name = 2;
+  string avatar = 3;
+  string desc = 4;
+}
+
+message JoinGroupReq {
+  uint64 srcId = 1; // 请求添加的id
+  uint64 groupId = 2; // 群组id
+  uint64 ownerId = 3; // 群主
+  string msg = 4; // 描述消息
+}
+
+message JoinGroupRes {
+  uint64 groupId = 1; // 群组id
+  uint64 targetId = 2; // 要添加成员id
+  string msg = 3; 
+  string name = 4; // 群名称
+}
+
+message Group {
+  uint64 id = 1;
+  string name = 2;
+  string avatar = 3;
+  string desc = 4;
+  uint64 ownerId = 5;
+}
+
+message GetGroupsReq {
+  uint64 ownerId = 1;
+  string msg = 3;
+}
+
+message GetGroupsRequest {
+  uint64 ownerId = 1;
+}
+
+message GetGroupsRes {
+  repeated Group groups = 1;
+  int32 code = 2;
+  string msg = 3;
 }

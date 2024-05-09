@@ -19,6 +19,17 @@ export type Session = {
 	session_type: number
 }
 
+export type Friend = {
+    id: number,
+	name: string,
+	remark: string,
+	avatar: string,
+	email: string,
+	phone: string,
+	gender: boolean,
+	line: string,
+}
+
 export type Paylod = {
 	message_id: number
 	data: Array<number>

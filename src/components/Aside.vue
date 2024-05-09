@@ -5,7 +5,7 @@
 		</div>
 		<a class="item" :class="{ select: route.path === '/home' }" @click="pushSession">
 			<svg class="icon">
-				<use xlink:href="#icon-message"></use>
+				<use xlink:href="#icon-weixinliaotian"></use>
 			</svg>
 			<p class="unreadMsg"></p>
 		</a>
@@ -13,13 +13,24 @@
 			<svg class="icon">
 				<use xlink:href="#icon-contact"></use>
 			</svg>
+		</a>
+		<a class="item" :class="{ select: route.path === '/notify' }" @click="">
+			<svg class="icon">
+				<use xlink:href="#icon-message"></use>
+			</svg>
 			<p class="unreadNotice" v-if="false"></p>
+		</a>
+		<a class="item" :class="{ select: route.path === '/add' }" @click="">
+			<svg class="icon">
+				<use xlink:href="#icon-add-friend"></use>
+			</svg>
 		</a>
 		<a class="switch" @click="switchTheme">
 			<svg class="icon">
 				<use :xlink:href="theme ? '#icon-baitian_' : '#icon-yueliang'"></use>
 			</svg>
 		</a>
+	
 		<a class="setting" :class="{ select: route.path === '/setting' }" @click="pushSetting">
 			<svg class="icon">
 				<use xlink:href="#icon-setting"></use>
@@ -127,7 +138,7 @@ const switchTheme = () => {
 		transform: scale(1.2);
 		transition: 0.5s;
 		fill: #0c68d2;
-		filter: drop-shadow(0 0 1px #fa5151);
+		/* filter: drop-shadow(0 0 1px #fa5151); */
 	}
 
 	.switch {
