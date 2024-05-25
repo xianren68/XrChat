@@ -20,7 +20,7 @@
 			</svg>
 			<p class="unreadNotice" v-if="false"></p>
 		</a>
-		<a class="item" :class="{ select: route.path === '/add' }" @click="">
+		<a class="item" :class="{ select: route.path === '/add' }" @click="pushAdd">
 			<svg class="icon">
 				<use xlink:href="#icon-add-friend"></use>
 			</svg>
@@ -30,7 +30,7 @@
 				<use :xlink:href="theme ? '#icon-baitian_' : '#icon-yueliang'"></use>
 			</svg>
 		</a>
-	
+
 		<a class="setting" :class="{ select: route.path === '/setting' }" @click="pushSetting">
 			<svg class="icon">
 				<use xlink:href="#icon-setting"></use>
@@ -55,6 +55,9 @@ const pushRelation = () => {
 }
 const pushSelf = () => {
 	router.push('/self')
+}
+const pushAdd = () => {
+	router.push('/add')
 }
 const theme = ref(false)
 const app = document.querySelector('#app') as HTMLElement

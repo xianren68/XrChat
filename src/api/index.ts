@@ -44,9 +44,11 @@ export const VerifyEmail = (data: user.EmailVerifyRequest) => userReq.Post('/ver
 export const VerifyEmailCode = (data: user.EmailVerifyCode) => userReq.Post('/verifyEmailCode', data)
 
 /// relation req
-export const AddFriendReq = (data: relation.AddFriendRequest) => relationReq.Post('/addFriendReq', data)
+export const AddFriendReq = (data: relation.relationOp) => relationReq.Post('/addFriendReq', data)
 
-// auth req
+export const SearchReq = (data: relation.SearchReq) => relationReq.Post('/search', data)
+
+// option req
 export const updateName = (data: option.updateName) => optionReq.Post('/updateName', data)
 
 export const updateGender = (data: option.updateGender) => optionReq.Post('/updateGender', data)

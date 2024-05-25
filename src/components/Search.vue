@@ -9,8 +9,11 @@
 				}
 			"
 		/>
-		<svg class="icon" @click="emits('search')">
+		<svg class="icon" @click="emits('search')" v-if="search">
 			<use xlink:href="#icon-sousuo"></use>
+		</svg>
+		<svg class="icon" @click="emits('cancel')" v-else>
+			<use xlink:href="#icon-quxiao"></use>
 		</svg>
 	</div>
 </template>
@@ -18,8 +21,9 @@
 <script setup lang="ts">
 defineProps({
 	modelValue: String,
+	search: Boolean,
 })
-const emits = defineEmits(['update:modelValue', 'search'])
+const emits = defineEmits(['update:modelValue', 'search', 'cancel'])
 </script>
 
 <style scoped>
@@ -38,14 +42,14 @@ const emits = defineEmits(['update:modelValue', 'search'])
 		border-radius: 5px;
 		border: 1px solid #999;
 		color: var(--text-color);
-		border: 1px solid var(--text-color);
+		border: 1px solid var(--primary-color);
 	}
 	.icon {
 		position: absolute;
 		right: 10px;
 		top: 50%;
 		transform: translateY(-50%);
-		fill: var(--text-color);
+		fill: var(--primary-color);
 		width: 20px;
 		height: 20px;
 	}

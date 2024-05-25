@@ -789,7 +789,7 @@ export namespace user {
 		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
 			const writer = w || new pb_1.BinaryWriter()
 			if (this.code != 0) writer.writeInt32(1, this.code)
-			if (this.id != 0) writer.writeUint32(2, this.id)
+			if (this.id != 0) writer.writeUint64(2, this.id)
 			if (this.username.length) writer.writeString(3, this.username)
 			if (this.line.length) writer.writeString(4, this.line)
 			if (this.avatar.length) writer.writeString(5, this.avatar)
@@ -810,7 +810,7 @@ export namespace user {
 						message.code = reader.readInt32()
 						break
 					case 2:
-						message.id = reader.readUint32()
+						message.id = reader.readUint64()
 						break
 					case 3:
 						message.username = reader.readString()

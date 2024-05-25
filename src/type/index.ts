@@ -20,14 +20,14 @@ export type Session = {
 }
 
 export type Friend = {
-    id: number,
-	name: string,
-	remark: string,
-	avatar: string,
-	email: string,
-	phone: string,
-	gender: boolean,
-	line: string,
+	id: number
+	name: string
+	remark: string
+	avatar: string
+	email: string
+	phone: string
+	gender: boolean
+	line: string
 }
 
 export type Paylod = {

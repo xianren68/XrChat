@@ -5,7 +5,7 @@
  * git: https://github.com/thesayyn/protoc-gen-ts */
 import * as pb_1 from 'google-protobuf'
 export namespace relation {
-	export class AddFriendRequest extends pb_1.Message {
+	export class relationOp extends pb_1.Message {
 		#one_of_decls: number[][] = []
 		constructor(
 			data?:
@@ -13,7 +13,7 @@ export namespace relation {
 				| {
 						ownerId?: number
 						targetId?: number
-						remark?: string
+						msg?: string
 				  }
 		) {
 			super()
@@ -25,8 +25,8 @@ export namespace relation {
 				if ('targetId' in data && data.targetId != undefined) {
 					this.targetId = data.targetId
 				}
-				if ('remark' in data && data.remark != undefined) {
-					this.remark = data.remark
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
 				}
 			}
 		}
@@ -42,22 +42,22 @@ export namespace relation {
 		set targetId(value: number) {
 			pb_1.Message.setField(this, 2, value)
 		}
-		get remark() {
-			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
 		}
-		set remark(value: string) {
-			pb_1.Message.setField(this, 3, value)
+		set msg(value: string) {
+			pb_1.Message.setField(this, 4, value)
 		}
-		static fromObject(data: { ownerId?: number; targetId?: number; remark?: string }): AddFriendRequest {
-			const message = new AddFriendRequest({})
+		static fromObject(data: { ownerId?: number; targetId?: number; msg?: string }): relationOp {
+			const message = new relationOp({})
 			if (data.ownerId != null) {
 				message.ownerId = data.ownerId
 			}
 			if (data.targetId != null) {
 				message.targetId = data.targetId
 			}
-			if (data.remark != null) {
-				message.remark = data.remark
+			if (data.msg != null) {
+				message.msg = data.msg
 			}
 			return message
 		}
@@ -65,7 +65,7 @@ export namespace relation {
 			const data: {
 				ownerId?: number
 				targetId?: number
-				remark?: string
+				msg?: string
 			} = {}
 			if (this.ownerId != null) {
 				data.ownerId = this.ownerId
@@ -73,8 +73,8 @@ export namespace relation {
 			if (this.targetId != null) {
 				data.targetId = this.targetId
 			}
-			if (this.remark != null) {
-				data.remark = this.remark
+			if (this.msg != null) {
+				data.msg = this.msg
 			}
 			return data
 		}
@@ -84,12 +84,12 @@ export namespace relation {
 			const writer = w || new pb_1.BinaryWriter()
 			if (this.ownerId != 0) writer.writeUint64(1, this.ownerId)
 			if (this.targetId != 0) writer.writeUint64(2, this.targetId)
-			if (this.remark.length) writer.writeString(3, this.remark)
+			if (this.msg.length) writer.writeString(4, this.msg)
 			if (!w) return writer.getResultBuffer()
 		}
-		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): AddFriendRequest {
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): relationOp {
 			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
-				message = new AddFriendRequest()
+				message = new relationOp()
 			while (reader.nextField()) {
 				if (reader.isEndGroup()) break
 				switch (reader.getFieldNumber()) {
@@ -99,8 +99,8 @@ export namespace relation {
 					case 2:
 						message.targetId = reader.readUint64()
 						break
-					case 3:
-						message.remark = reader.readString()
+					case 4:
+						message.msg = reader.readString()
 						break
 					default:
 						reader.skipField()
@@ -111,8 +111,1578 @@ export namespace relation {
 		serializeBinary(): Uint8Array {
 			return this.serialize()
 		}
-		static deserializeBinary(bytes: Uint8Array): AddFriendRequest {
-			return AddFriendRequest.deserialize(bytes)
+		static deserializeBinary(bytes: Uint8Array): relationOp {
+			return relationOp.deserialize(bytes)
+		}
+	}
+	export class Friend extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						id?: number
+						name?: string
+						remark?: string
+						avatar?: string
+						email?: string
+						phone?: string
+						gender?: boolean
+						line?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('id' in data && data.id != undefined) {
+					this.id = data.id
+				}
+				if ('name' in data && data.name != undefined) {
+					this.name = data.name
+				}
+				if ('remark' in data && data.remark != undefined) {
+					this.remark = data.remark
+				}
+				if ('avatar' in data && data.avatar != undefined) {
+					this.avatar = data.avatar
+				}
+				if ('email' in data && data.email != undefined) {
+					this.email = data.email
+				}
+				if ('phone' in data && data.phone != undefined) {
+					this.phone = data.phone
+				}
+				if ('gender' in data && data.gender != undefined) {
+					this.gender = data.gender
+				}
+				if ('line' in data && data.line != undefined) {
+					this.line = data.line
+				}
+			}
+		}
+		get id() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set id(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get name() {
+			return pb_1.Message.getFieldWithDefault(this, 2, '') as string
+		}
+		set name(value: string) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get remark() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set remark(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get avatar() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
+		}
+		set avatar(value: string) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		get email() {
+			return pb_1.Message.getFieldWithDefault(this, 5, '') as string
+		}
+		set email(value: string) {
+			pb_1.Message.setField(this, 5, value)
+		}
+		get phone() {
+			return pb_1.Message.getFieldWithDefault(this, 6, '') as string
+		}
+		set phone(value: string) {
+			pb_1.Message.setField(this, 6, value)
+		}
+		get gender() {
+			return pb_1.Message.getFieldWithDefault(this, 7, false) as boolean
+		}
+		set gender(value: boolean) {
+			pb_1.Message.setField(this, 7, value)
+		}
+		get line() {
+			return pb_1.Message.getFieldWithDefault(this, 8, '') as string
+		}
+		set line(value: string) {
+			pb_1.Message.setField(this, 8, value)
+		}
+		static fromObject(data: {
+			id?: number
+			name?: string
+			remark?: string
+			avatar?: string
+			email?: string
+			phone?: string
+			gender?: boolean
+			line?: string
+		}): Friend {
+			const message = new Friend({})
+			if (data.id != null) {
+				message.id = data.id
+			}
+			if (data.name != null) {
+				message.name = data.name
+			}
+			if (data.remark != null) {
+				message.remark = data.remark
+			}
+			if (data.avatar != null) {
+				message.avatar = data.avatar
+			}
+			if (data.email != null) {
+				message.email = data.email
+			}
+			if (data.phone != null) {
+				message.phone = data.phone
+			}
+			if (data.gender != null) {
+				message.gender = data.gender
+			}
+			if (data.line != null) {
+				message.line = data.line
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				id?: number
+				name?: string
+				remark?: string
+				avatar?: string
+				email?: string
+				phone?: string
+				gender?: boolean
+				line?: string
+			} = {}
+			if (this.id != null) {
+				data.id = this.id
+			}
+			if (this.name != null) {
+				data.name = this.name
+			}
+			if (this.remark != null) {
+				data.remark = this.remark
+			}
+			if (this.avatar != null) {
+				data.avatar = this.avatar
+			}
+			if (this.email != null) {
+				data.email = this.email
+			}
+			if (this.phone != null) {
+				data.phone = this.phone
+			}
+			if (this.gender != null) {
+				data.gender = this.gender
+			}
+			if (this.line != null) {
+				data.line = this.line
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.id != 0) writer.writeUint64(1, this.id)
+			if (this.name.length) writer.writeString(2, this.name)
+			if (this.remark.length) writer.writeString(3, this.remark)
+			if (this.avatar.length) writer.writeString(4, this.avatar)
+			if (this.email.length) writer.writeString(5, this.email)
+			if (this.phone.length) writer.writeString(6, this.phone)
+			if (this.gender != false) writer.writeBool(7, this.gender)
+			if (this.line.length) writer.writeString(8, this.line)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Friend {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new Friend()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.id = reader.readUint64()
+						break
+					case 2:
+						message.name = reader.readString()
+						break
+					case 3:
+						message.remark = reader.readString()
+						break
+					case 4:
+						message.avatar = reader.readString()
+						break
+					case 5:
+						message.email = reader.readString()
+						break
+					case 6:
+						message.phone = reader.readString()
+						break
+					case 7:
+						message.gender = reader.readBool()
+						break
+					case 8:
+						message.line = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): Friend {
+			return Friend.deserialize(bytes)
+		}
+	}
+	export class GetFriendsRequest extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						ownerId?: number
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+			}
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		static fromObject(data: { ownerId?: number }): GetFriendsRequest {
+			const message = new GetFriendsRequest({})
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				ownerId?: number
+			} = {}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.ownerId != 0) writer.writeUint64(1, this.ownerId)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetFriendsRequest {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new GetFriendsRequest()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.ownerId = reader.readUint64()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): GetFriendsRequest {
+			return GetFriendsRequest.deserialize(bytes)
+		}
+	}
+	export class GetFriendsRes extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						friends?: Friend[]
+						code?: number
+						msg?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('friends' in data && data.friends != undefined) {
+					this.friends = data.friends
+				}
+				if ('code' in data && data.code != undefined) {
+					this.code = data.code
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+			}
+		}
+		get friends() {
+			return pb_1.Message.getRepeatedWrapperField(this, Friend, 1) as Friend[]
+		}
+		set friends(value: Friend[]) {
+			pb_1.Message.setRepeatedWrapperField(this, 1, value)
+		}
+		get code() {
+			return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+		}
+		set code(value: number) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		static fromObject(data: { friends?: ReturnType<typeof Friend.prototype.toObject>[]; code?: number; msg?: string }): GetFriendsRes {
+			const message = new GetFriendsRes({})
+			if (data.friends != null) {
+				message.friends = data.friends.map((item) => Friend.fromObject(item))
+			}
+			if (data.code != null) {
+				message.code = data.code
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				friends?: ReturnType<typeof Friend.prototype.toObject>[]
+				code?: number
+				msg?: string
+			} = {}
+			if (this.friends != null) {
+				data.friends = this.friends.map((item: Friend) => item.toObject())
+			}
+			if (this.code != null) {
+				data.code = this.code
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.friends.length) writer.writeRepeatedMessage(1, this.friends, (item: Friend) => item.serialize(writer))
+			if (this.code != 0) writer.writeInt32(2, this.code)
+			if (this.msg.length) writer.writeString(3, this.msg)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetFriendsRes {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new GetFriendsRes()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						reader.readMessage(message.friends, () => pb_1.Message.addToRepeatedWrapperField(message, 1, Friend.deserialize(reader), Friend))
+						break
+					case 2:
+						message.code = reader.readInt32()
+						break
+					case 3:
+						message.msg = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): GetFriendsRes {
+			return GetFriendsRes.deserialize(bytes)
+		}
+	}
+	export class CreateGroupRequest extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						ownerId?: number
+						name?: string
+						avatar?: string
+						desc?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+				if ('name' in data && data.name != undefined) {
+					this.name = data.name
+				}
+				if ('avatar' in data && data.avatar != undefined) {
+					this.avatar = data.avatar
+				}
+				if ('desc' in data && data.desc != undefined) {
+					this.desc = data.desc
+				}
+			}
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get name() {
+			return pb_1.Message.getFieldWithDefault(this, 2, '') as string
+		}
+		set name(value: string) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get avatar() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set avatar(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get desc() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
+		}
+		set desc(value: string) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		static fromObject(data: { ownerId?: number; name?: string; avatar?: string; desc?: string }): CreateGroupRequest {
+			const message = new CreateGroupRequest({})
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			if (data.name != null) {
+				message.name = data.name
+			}
+			if (data.avatar != null) {
+				message.avatar = data.avatar
+			}
+			if (data.desc != null) {
+				message.desc = data.desc
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				ownerId?: number
+				name?: string
+				avatar?: string
+				desc?: string
+			} = {}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			if (this.name != null) {
+				data.name = this.name
+			}
+			if (this.avatar != null) {
+				data.avatar = this.avatar
+			}
+			if (this.desc != null) {
+				data.desc = this.desc
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.ownerId != 0) writer.writeUint64(1, this.ownerId)
+			if (this.name.length) writer.writeString(2, this.name)
+			if (this.avatar.length) writer.writeString(3, this.avatar)
+			if (this.desc.length) writer.writeString(4, this.desc)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): CreateGroupRequest {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new CreateGroupRequest()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.ownerId = reader.readUint64()
+						break
+					case 2:
+						message.name = reader.readString()
+						break
+					case 3:
+						message.avatar = reader.readString()
+						break
+					case 4:
+						message.desc = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): CreateGroupRequest {
+			return CreateGroupRequest.deserialize(bytes)
+		}
+	}
+	export class JoinGroupReq extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						srcId?: number
+						groupId?: number
+						ownerId?: number
+						msg?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('srcId' in data && data.srcId != undefined) {
+					this.srcId = data.srcId
+				}
+				if ('groupId' in data && data.groupId != undefined) {
+					this.groupId = data.groupId
+				}
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+			}
+		}
+		get srcId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set srcId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get groupId() {
+			return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+		}
+		set groupId(value: number) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 3, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		static fromObject(data: { srcId?: number; groupId?: number; ownerId?: number; msg?: string }): JoinGroupReq {
+			const message = new JoinGroupReq({})
+			if (data.srcId != null) {
+				message.srcId = data.srcId
+			}
+			if (data.groupId != null) {
+				message.groupId = data.groupId
+			}
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				srcId?: number
+				groupId?: number
+				ownerId?: number
+				msg?: string
+			} = {}
+			if (this.srcId != null) {
+				data.srcId = this.srcId
+			}
+			if (this.groupId != null) {
+				data.groupId = this.groupId
+			}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.srcId != 0) writer.writeUint64(1, this.srcId)
+			if (this.groupId != 0) writer.writeUint64(2, this.groupId)
+			if (this.ownerId != 0) writer.writeUint64(3, this.ownerId)
+			if (this.msg.length) writer.writeString(4, this.msg)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): JoinGroupReq {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new JoinGroupReq()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.srcId = reader.readUint64()
+						break
+					case 2:
+						message.groupId = reader.readUint64()
+						break
+					case 3:
+						message.ownerId = reader.readUint64()
+						break
+					case 4:
+						message.msg = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): JoinGroupReq {
+			return JoinGroupReq.deserialize(bytes)
+		}
+	}
+	export class JoinGroupRes extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						groupId?: number
+						targetId?: number
+						msg?: string
+						name?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('groupId' in data && data.groupId != undefined) {
+					this.groupId = data.groupId
+				}
+				if ('targetId' in data && data.targetId != undefined) {
+					this.targetId = data.targetId
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+				if ('name' in data && data.name != undefined) {
+					this.name = data.name
+				}
+			}
+		}
+		get groupId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set groupId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get targetId() {
+			return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+		}
+		set targetId(value: number) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get name() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
+		}
+		set name(value: string) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		static fromObject(data: { groupId?: number; targetId?: number; msg?: string; name?: string }): JoinGroupRes {
+			const message = new JoinGroupRes({})
+			if (data.groupId != null) {
+				message.groupId = data.groupId
+			}
+			if (data.targetId != null) {
+				message.targetId = data.targetId
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			if (data.name != null) {
+				message.name = data.name
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				groupId?: number
+				targetId?: number
+				msg?: string
+				name?: string
+			} = {}
+			if (this.groupId != null) {
+				data.groupId = this.groupId
+			}
+			if (this.targetId != null) {
+				data.targetId = this.targetId
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			if (this.name != null) {
+				data.name = this.name
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.groupId != 0) writer.writeUint64(1, this.groupId)
+			if (this.targetId != 0) writer.writeUint64(2, this.targetId)
+			if (this.msg.length) writer.writeString(3, this.msg)
+			if (this.name.length) writer.writeString(4, this.name)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): JoinGroupRes {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new JoinGroupRes()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.groupId = reader.readUint64()
+						break
+					case 2:
+						message.targetId = reader.readUint64()
+						break
+					case 3:
+						message.msg = reader.readString()
+						break
+					case 4:
+						message.name = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): JoinGroupRes {
+			return JoinGroupRes.deserialize(bytes)
+		}
+	}
+	export class Group extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						id?: number
+						name?: string
+						avatar?: string
+						desc?: string
+						ownerId?: number
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('id' in data && data.id != undefined) {
+					this.id = data.id
+				}
+				if ('name' in data && data.name != undefined) {
+					this.name = data.name
+				}
+				if ('avatar' in data && data.avatar != undefined) {
+					this.avatar = data.avatar
+				}
+				if ('desc' in data && data.desc != undefined) {
+					this.desc = data.desc
+				}
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+			}
+		}
+		get id() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set id(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get name() {
+			return pb_1.Message.getFieldWithDefault(this, 2, '') as string
+		}
+		set name(value: string) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get avatar() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set avatar(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get desc() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
+		}
+		set desc(value: string) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 5, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 5, value)
+		}
+		static fromObject(data: { id?: number; name?: string; avatar?: string; desc?: string; ownerId?: number }): Group {
+			const message = new Group({})
+			if (data.id != null) {
+				message.id = data.id
+			}
+			if (data.name != null) {
+				message.name = data.name
+			}
+			if (data.avatar != null) {
+				message.avatar = data.avatar
+			}
+			if (data.desc != null) {
+				message.desc = data.desc
+			}
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				id?: number
+				name?: string
+				avatar?: string
+				desc?: string
+				ownerId?: number
+			} = {}
+			if (this.id != null) {
+				data.id = this.id
+			}
+			if (this.name != null) {
+				data.name = this.name
+			}
+			if (this.avatar != null) {
+				data.avatar = this.avatar
+			}
+			if (this.desc != null) {
+				data.desc = this.desc
+			}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.id != 0) writer.writeUint64(1, this.id)
+			if (this.name.length) writer.writeString(2, this.name)
+			if (this.avatar.length) writer.writeString(3, this.avatar)
+			if (this.desc.length) writer.writeString(4, this.desc)
+			if (this.ownerId != 0) writer.writeUint64(5, this.ownerId)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Group {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new Group()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.id = reader.readUint64()
+						break
+					case 2:
+						message.name = reader.readString()
+						break
+					case 3:
+						message.avatar = reader.readString()
+						break
+					case 4:
+						message.desc = reader.readString()
+						break
+					case 5:
+						message.ownerId = reader.readUint64()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): Group {
+			return Group.deserialize(bytes)
+		}
+	}
+	export class GetGroupsReq extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						ownerId?: number
+						msg?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+			}
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		static fromObject(data: { ownerId?: number; msg?: string }): GetGroupsReq {
+			const message = new GetGroupsReq({})
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				ownerId?: number
+				msg?: string
+			} = {}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.ownerId != 0) writer.writeUint64(1, this.ownerId)
+			if (this.msg.length) writer.writeString(3, this.msg)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetGroupsReq {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new GetGroupsReq()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.ownerId = reader.readUint64()
+						break
+					case 3:
+						message.msg = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): GetGroupsReq {
+			return GetGroupsReq.deserialize(bytes)
+		}
+	}
+	export class GetGroupsRequest extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						ownerId?: number
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('ownerId' in data && data.ownerId != undefined) {
+					this.ownerId = data.ownerId
+				}
+			}
+		}
+		get ownerId() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set ownerId(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		static fromObject(data: { ownerId?: number }): GetGroupsRequest {
+			const message = new GetGroupsRequest({})
+			if (data.ownerId != null) {
+				message.ownerId = data.ownerId
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				ownerId?: number
+			} = {}
+			if (this.ownerId != null) {
+				data.ownerId = this.ownerId
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.ownerId != 0) writer.writeUint64(1, this.ownerId)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetGroupsRequest {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new GetGroupsRequest()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.ownerId = reader.readUint64()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): GetGroupsRequest {
+			return GetGroupsRequest.deserialize(bytes)
+		}
+	}
+	export class GetGroupsRes extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						groups?: Group[]
+						code?: number
+						msg?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [1], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('groups' in data && data.groups != undefined) {
+					this.groups = data.groups
+				}
+				if ('code' in data && data.code != undefined) {
+					this.code = data.code
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+			}
+		}
+		get groups() {
+			return pb_1.Message.getRepeatedWrapperField(this, Group, 1) as Group[]
+		}
+		set groups(value: Group[]) {
+			pb_1.Message.setRepeatedWrapperField(this, 1, value)
+		}
+		get code() {
+			return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+		}
+		set code(value: number) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		static fromObject(data: { groups?: ReturnType<typeof Group.prototype.toObject>[]; code?: number; msg?: string }): GetGroupsRes {
+			const message = new GetGroupsRes({})
+			if (data.groups != null) {
+				message.groups = data.groups.map((item) => Group.fromObject(item))
+			}
+			if (data.code != null) {
+				message.code = data.code
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				groups?: ReturnType<typeof Group.prototype.toObject>[]
+				code?: number
+				msg?: string
+			} = {}
+			if (this.groups != null) {
+				data.groups = this.groups.map((item: Group) => item.toObject())
+			}
+			if (this.code != null) {
+				data.code = this.code
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.groups.length) writer.writeRepeatedMessage(1, this.groups, (item: Group) => item.serialize(writer))
+			if (this.code != 0) writer.writeInt32(2, this.code)
+			if (this.msg.length) writer.writeString(3, this.msg)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetGroupsRes {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new GetGroupsRes()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						reader.readMessage(message.groups, () => pb_1.Message.addToRepeatedWrapperField(message, 1, Group.deserialize(reader), Group))
+						break
+					case 2:
+						message.code = reader.readInt32()
+						break
+					case 3:
+						message.msg = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): GetGroupsRes {
+			return GetGroupsRes.deserialize(bytes)
+		}
+	}
+	export class Res extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						id?: number
+						name?: string
+						avatar?: string
+						desc?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('id' in data && data.id != undefined) {
+					this.id = data.id
+				}
+				if ('name' in data && data.name != undefined) {
+					this.name = data.name
+				}
+				if ('avatar' in data && data.avatar != undefined) {
+					this.avatar = data.avatar
+				}
+				if ('desc' in data && data.desc != undefined) {
+					this.desc = data.desc
+				}
+			}
+		}
+		get id() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set id(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get name() {
+			return pb_1.Message.getFieldWithDefault(this, 2, '') as string
+		}
+		set name(value: string) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get avatar() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set avatar(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get desc() {
+			return pb_1.Message.getFieldWithDefault(this, 4, '') as string
+		}
+		set desc(value: string) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		static fromObject(data: { id?: number; name?: string; avatar?: string; desc?: string }): Res {
+			const message = new Res({})
+			if (data.id != null) {
+				message.id = data.id
+			}
+			if (data.name != null) {
+				message.name = data.name
+			}
+			if (data.avatar != null) {
+				message.avatar = data.avatar
+			}
+			if (data.desc != null) {
+				message.desc = data.desc
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				id?: number
+				name?: string
+				avatar?: string
+				desc?: string
+			} = {}
+			if (this.id != null) {
+				data.id = this.id
+			}
+			if (this.name != null) {
+				data.name = this.name
+			}
+			if (this.avatar != null) {
+				data.avatar = this.avatar
+			}
+			if (this.desc != null) {
+				data.desc = this.desc
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.id != 0) writer.writeUint32(1, this.id)
+			if (this.name.length) writer.writeString(2, this.name)
+			if (this.avatar.length) writer.writeString(3, this.avatar)
+			if (this.desc.length) writer.writeString(4, this.desc)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Res {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new Res()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.id = reader.readUint32()
+						break
+					case 2:
+						message.name = reader.readString()
+						break
+					case 3:
+						message.avatar = reader.readString()
+						break
+					case 4:
+						message.desc = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): Res {
+			return Res.deserialize(bytes)
+		}
+	}
+	export class SearchReq extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						id?: number
+						key?: string
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('id' in data && data.id != undefined) {
+					this.id = data.id
+				}
+				if ('key' in data && data.key != undefined) {
+					this.key = data.key
+				}
+			}
+		}
+		get id() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set id(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get key() {
+			return pb_1.Message.getFieldWithDefault(this, 2, '') as string
+		}
+		set key(value: string) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		static fromObject(data: { id?: number; key?: string }): SearchReq {
+			const message = new SearchReq({})
+			if (data.id != null) {
+				message.id = data.id
+			}
+			if (data.key != null) {
+				message.key = data.key
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				id?: number
+				key?: string
+			} = {}
+			if (this.id != null) {
+				data.id = this.id
+			}
+			if (this.key != null) {
+				data.key = this.key
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.id != 0) writer.writeUint32(1, this.id)
+			if (this.key.length) writer.writeString(2, this.key)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SearchReq {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new SearchReq()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.id = reader.readUint32()
+						break
+					case 2:
+						message.key = reader.readString()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): SearchReq {
+			return SearchReq.deserialize(bytes)
+		}
+	}
+	export class SearchRes extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						code?: number
+						msg?: string
+						users?: Res[]
+						groups?: Res[]
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [3, 4], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('code' in data && data.code != undefined) {
+					this.code = data.code
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+				if ('users' in data && data.users != undefined) {
+					this.users = data.users
+				}
+				if ('groups' in data && data.groups != undefined) {
+					this.groups = data.groups
+				}
+			}
+		}
+		get code() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set code(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 2, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get users() {
+			return pb_1.Message.getRepeatedWrapperField(this, Res, 3) as Res[]
+		}
+		set users(value: Res[]) {
+			pb_1.Message.setRepeatedWrapperField(this, 3, value)
+		}
+		get groups() {
+			return pb_1.Message.getRepeatedWrapperField(this, Res, 4) as Res[]
+		}
+		set groups(value: Res[]) {
+			pb_1.Message.setRepeatedWrapperField(this, 4, value)
+		}
+		static fromObject(data: {
+			code?: number
+			msg?: string
+			users?: ReturnType<typeof Res.prototype.toObject>[]
+			groups?: ReturnType<typeof Res.prototype.toObject>[]
+		}): SearchRes {
+			const message = new SearchRes({})
+			if (data.code != null) {
+				message.code = data.code
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			if (data.users != null) {
+				message.users = data.users.map((item) => Res.fromObject(item))
+			}
+			if (data.groups != null) {
+				message.groups = data.groups.map((item) => Res.fromObject(item))
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				code?: number
+				msg?: string
+				users?: ReturnType<typeof Res.prototype.toObject>[]
+				groups?: ReturnType<typeof Res.prototype.toObject>[]
+			} = {}
+			if (this.code != null) {
+				data.code = this.code
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			if (this.users != null) {
+				data.users = this.users.map((item: Res) => item.toObject())
+			}
+			if (this.groups != null) {
+				data.groups = this.groups.map((item: Res) => item.toObject())
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.code != 0) writer.writeInt32(1, this.code)
+			if (this.msg.length) writer.writeString(2, this.msg)
+			if (this.users.length) writer.writeRepeatedMessage(3, this.users, (item: Res) => item.serialize(writer))
+			if (this.groups.length) writer.writeRepeatedMessage(4, this.groups, (item: Res) => item.serialize(writer))
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): SearchRes {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new SearchRes()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.code = reader.readInt32()
+						break
+					case 2:
+						message.msg = reader.readString()
+						break
+					case 3:
+						reader.readMessage(message.users, () => pb_1.Message.addToRepeatedWrapperField(message, 3, Res.deserialize(reader), Res))
+						break
+					case 4:
+						reader.readMessage(message.groups, () => pb_1.Message.addToRepeatedWrapperField(message, 4, Res.deserialize(reader), Res))
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): SearchRes {
+			return SearchRes.deserialize(bytes)
 		}
 	}
 }

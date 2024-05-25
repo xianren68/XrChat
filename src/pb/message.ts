@@ -3,142 +3,137 @@
  * compiler version: 5.26.0
  * source: message.proto
  * git: https://github.com/thesayyn/protoc-gen-ts */
-import * as pb_1 from "google-protobuf";
+import * as pb_1 from 'google-protobuf'
 export namespace message {
-    export class Message extends pb_1.Message {
-        #one_of_decls: number[][] = [];
-        constructor(data?: any[] | {
-            src?: number;
-            tar?: number;
-            msg?: string;
-            time?: number;
-        }) {
-            super();
-            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
-            if (!Array.isArray(data) && typeof data == "object") {
-                if ("src" in data && data.src != undefined) {
-                    this.src = data.src;
-                }
-                if ("tar" in data && data.tar != undefined) {
-                    this.tar = data.tar;
-                }
-                if ("msg" in data && data.msg != undefined) {
-                    this.msg = data.msg;
-                }
-                if ("time" in data && data.time != undefined) {
-                    this.time = data.time;
-                }
-            }
-        }
-        get src() {
-            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
-        }
-        set src(value: number) {
-            pb_1.Message.setField(this, 1, value);
-        }
-        get tar() {
-            return pb_1.Message.getFieldWithDefault(this, 2, 0) as number;
-        }
-        set tar(value: number) {
-            pb_1.Message.setField(this, 2, value);
-        }
-        get msg() {
-            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
-        }
-        set msg(value: string) {
-            pb_1.Message.setField(this, 3, value);
-        }
-        get time() {
-            return pb_1.Message.getFieldWithDefault(this, 4, 0) as number;
-        }
-        set time(value: number) {
-            pb_1.Message.setField(this, 4, value);
-        }
-        static fromObject(data: {
-            src?: number;
-            tar?: number;
-            msg?: string;
-            time?: number;
-        }): Message {
-            const message = new Message({});
-            if (data.src != null) {
-                message.src = data.src;
-            }
-            if (data.tar != null) {
-                message.tar = data.tar;
-            }
-            if (data.msg != null) {
-                message.msg = data.msg;
-            }
-            if (data.time != null) {
-                message.time = data.time;
-            }
-            return message;
-        }
-        toObject() {
-            const data: {
-                src?: number;
-                tar?: number;
-                msg?: string;
-                time?: number;
-            } = {};
-            if (this.src != null) {
-                data.src = this.src;
-            }
-            if (this.tar != null) {
-                data.tar = this.tar;
-            }
-            if (this.msg != null) {
-                data.msg = this.msg;
-            }
-            if (this.time != null) {
-                data.time = this.time;
-            }
-            return data;
-        }
-        serialize(): Uint8Array;
-        serialize(w: pb_1.BinaryWriter): void;
-        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
-            const writer = w || new pb_1.BinaryWriter();
-            if (this.src != 0)
-                writer.writeUint64(1, this.src);
-            if (this.tar != 0)
-                writer.writeUint64(2, this.tar);
-            if (this.msg.length)
-                writer.writeString(3, this.msg);
-            if (this.time != 0)
-                writer.writeUint64(4, this.time);
-            if (!w)
-                return writer.getResultBuffer();
-        }
-        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Message {
-            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new Message();
-            while (reader.nextField()) {
-                if (reader.isEndGroup())
-                    break;
-                switch (reader.getFieldNumber()) {
-                    case 1:
-                        message.src = reader.readUint64();
-                        break;
-                    case 2:
-                        message.tar = reader.readUint64();
-                        break;
-                    case 3:
-                        message.msg = reader.readString();
-                        break;
-                    case 4:
-                        message.time = reader.readUint64();
-                        break;
-                    default: reader.skipField();
-                }
-            }
-            return message;
-        }
-        serializeBinary(): Uint8Array {
-            return this.serialize();
-        }
-        static deserializeBinary(bytes: Uint8Array): Message {
-            return Message.deserialize(bytes);
-        }
-    }
+	export class Message extends pb_1.Message {
+		#one_of_decls: number[][] = []
+		constructor(
+			data?:
+				| any[]
+				| {
+						src?: number
+						tar?: number
+						msg?: string
+						time?: number
+				  }
+		) {
+			super()
+			pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls)
+			if (!Array.isArray(data) && typeof data == 'object') {
+				if ('src' in data && data.src != undefined) {
+					this.src = data.src
+				}
+				if ('tar' in data && data.tar != undefined) {
+					this.tar = data.tar
+				}
+				if ('msg' in data && data.msg != undefined) {
+					this.msg = data.msg
+				}
+				if ('time' in data && data.time != undefined) {
+					this.time = data.time
+				}
+			}
+		}
+		get src() {
+			return pb_1.Message.getFieldWithDefault(this, 1, 0) as number
+		}
+		set src(value: number) {
+			pb_1.Message.setField(this, 1, value)
+		}
+		get tar() {
+			return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+		}
+		set tar(value: number) {
+			pb_1.Message.setField(this, 2, value)
+		}
+		get msg() {
+			return pb_1.Message.getFieldWithDefault(this, 3, '') as string
+		}
+		set msg(value: string) {
+			pb_1.Message.setField(this, 3, value)
+		}
+		get time() {
+			return pb_1.Message.getFieldWithDefault(this, 4, 0) as number
+		}
+		set time(value: number) {
+			pb_1.Message.setField(this, 4, value)
+		}
+		static fromObject(data: { src?: number; tar?: number; msg?: string; time?: number }): Message {
+			const message = new Message({})
+			if (data.src != null) {
+				message.src = data.src
+			}
+			if (data.tar != null) {
+				message.tar = data.tar
+			}
+			if (data.msg != null) {
+				message.msg = data.msg
+			}
+			if (data.time != null) {
+				message.time = data.time
+			}
+			return message
+		}
+		toObject() {
+			const data: {
+				src?: number
+				tar?: number
+				msg?: string
+				time?: number
+			} = {}
+			if (this.src != null) {
+				data.src = this.src
+			}
+			if (this.tar != null) {
+				data.tar = this.tar
+			}
+			if (this.msg != null) {
+				data.msg = this.msg
+			}
+			if (this.time != null) {
+				data.time = this.time
+			}
+			return data
+		}
+		serialize(): Uint8Array
+		serialize(w: pb_1.BinaryWriter): void
+		serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+			const writer = w || new pb_1.BinaryWriter()
+			if (this.src != 0) writer.writeUint64(1, this.src)
+			if (this.tar != 0) writer.writeUint64(2, this.tar)
+			if (this.msg.length) writer.writeString(3, this.msg)
+			if (this.time != 0) writer.writeUint64(4, this.time)
+			if (!w) return writer.getResultBuffer()
+		}
+		static deserialize(bytes: Uint8Array | pb_1.BinaryReader): Message {
+			const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes),
+				message = new Message()
+			while (reader.nextField()) {
+				if (reader.isEndGroup()) break
+				switch (reader.getFieldNumber()) {
+					case 1:
+						message.src = reader.readUint64()
+						break
+					case 2:
+						message.tar = reader.readUint64()
+						break
+					case 3:
+						message.msg = reader.readString()
+						break
+					case 4:
+						message.time = reader.readUint64()
+						break
+					default:
+						reader.skipField()
+				}
+			}
+			return message
+		}
+		serializeBinary(): Uint8Array {
+			return this.serialize()
+		}
+		static deserializeBinary(bytes: Uint8Array): Message {
+			return Message.deserialize(bytes)
+		}
+	}
 }

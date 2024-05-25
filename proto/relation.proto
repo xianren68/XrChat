@@ -71,3 +71,23 @@ message GetGroupsRes {
   int32 code = 2;
   string msg = 3;
 }
+
+
+// search user/group, return Res
+message Res {
+  uint32 id = 1;
+  string name = 2;
+  string avatar = 3;
+  string desc = 4;
+}
+message SearchReq {
+  uint32  id = 1;
+  string key = 2;
+}
+
+message SearchRes {
+  int32 code = 1;
+  string msg = 2;
+  repeated Res users = 3;
+  repeated Res groups = 4;
+}

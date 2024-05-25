@@ -85,6 +85,7 @@ const login = async () => {
 	useUserStore.token = resp.token
 	const res = await invoke('get_session_list', { id: resp.id })
 	useSessionStore.sessionList = res as Array<Session>
+	useSessionStore.updateMap()
 	router.push({ name: 'session' })
 	ElMessage.success('登录成功')
 }

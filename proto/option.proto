@@ -1,4 +1,8 @@
+// version
 syntax = "proto3";
+
+// package
+option go_package = "./pb";
 package option;
 
 
